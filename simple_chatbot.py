@@ -132,7 +132,7 @@ def get_html_page():
                 const message = inputField.value.trim();
                 if (!message) return;
 
-                chatBox.value += "You: " + message + "\n";
+                chatBox.value += "You: " + message + "\\n";  // Fixed escaping
                 inputField.value = "";
                 chatBox.scrollTop = chatBox.scrollHeight;
 
@@ -143,11 +143,11 @@ def get_html_page():
                 })
                 .then(response => response.json())
                 .then(data => {
-                    chatBox.value += "Bot: " + data.reply + "\n";
+                    chatBox.value += "Bot: " + data.reply + "\\n";  // Fixed escaping
                     chatBox.scrollTop = chatBox.scrollHeight;
                 })
                 .catch(error => {
-                    chatBox.value += "Error: Could not fetch response.\n";
+                    chatBox.value += "Error: Could not fetch response.\\n";  // Fixed escaping
                     console.error("Fetch error:", error);
                 });
             }
@@ -155,6 +155,7 @@ def get_html_page():
     </script>
 </body>
 </html>"""
+
 
 @app.get("/", response_class=HTMLResponse)
 def serve_html():
