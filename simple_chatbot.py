@@ -52,15 +52,63 @@ def get_html_page():
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta def get_html_page():
+    return """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Chatbot</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background: #f4f4f4; padding: 20px; }
-        .chat-container { max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); }
-        textarea { width: 100%; height: 250px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; resize: none; overflow-y: auto; }
-        input { width: 75%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
-        button { width: 20%; padding: 10px; background-color: #28a745; color: white; border-radius: 5px; cursor: pointer; }
-        button:hover { background-color: #218838; }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        .chat-container {
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        textarea {
+            width: 100%;
+            height: 250px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: none;
+            overflow-y: auto;
+        }
+        input {
+            width: 75%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        button {
+            width: 20%;
+            padding: 10px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
@@ -72,21 +120,28 @@ def get_html_page():
             <button id="sendButton">Send</button>
         </div>
     </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const chatBox = document.getElementById("chat");
             const inputField = document.getElementById("message");
             const sendButton = document.getElementById("sendButton");
+
             sendButton.addEventListener("click", sendMessage);
             inputField.addEventListener("keypress", function(event) {
-                if (event.key === "Enter") { sendMessage(); }
+                if (event.key === "Enter") {
+                    sendMessage();
+                }
             });
+
             function sendMessage() {
                 const message = inputField.value.trim();
                 if (!message) return;
-                chatBox.value += "You: " + message + "\n";
+
+                chatBox.value += "You: " + message + "\\n";  // Correct escaping
                 inputField.value = "";
                 chatBox.scrollTop = chatBox.scrollHeight;
+
                 fetch("/chat", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -94,11 +149,11 @@ def get_html_page():
                 })
                 .then(response => response.json())
                 .then(data => {
-                    chatBox.value += "Bot: " + (data.reply || "[No response received]") + "\n";
+                    chatBox.value += "Bot: " + data.reply + "\\n";  // Correct escaping
                     chatBox.scrollTop = chatBox.scrollHeight;
                 })
                 .catch(error => {
-                    chatBox.value += "Error: Could not fetch response.\n";
+                    chatBox.value += "Error: Could not fetch response.\\n";  // Correct escaping
                     console.error("Fetch error:", error);
                 });
             }
@@ -106,6 +161,7 @@ def get_html_page():
     </script>
 </body>
 </html>"""
+
 
 @app.get("/", response_class=HTMLResponse)
 def serve_html():
