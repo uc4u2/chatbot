@@ -22,6 +22,7 @@ class ChatRequest(BaseModel):
 
 # Load custom knowledge from knowledge.txt
 knowledge_file = "knowledge.txt"
+
 if os.path.exists(knowledge_file):
     with open(knowledge_file, "r", encoding="utf-8") as f:
         custom_knowledge = f.read()
@@ -108,7 +109,6 @@ def get_html_page():
             inputField.addEventListener("keypress", function(event) {
                 if (event.key === "Enter") {
                     sendMessage();
-                    event.preventDefault(); // Prevent form submission
                 }
             });
 
@@ -127,7 +127,7 @@ def get_html_page():
                 })
                 .then(response => response.json())
                 .then(data => {
-                    chatBox.value += "Bot: " + (data.reply || "I didn't catch that.") + "\\n";
+                    chatBox.value += "Bot: " + data.reply + "\\n";
                     chatBox.scrollTop = chatBox.scrollHeight;
                 })
                 .catch(error => {
@@ -139,6 +139,8 @@ def get_html_page():
     </script>
 </body>
 </html>"""
+
+
 
 @app.get("/", response_class=HTMLResponse)
 def serve_html():
@@ -152,13 +154,13 @@ def chat(request: ChatRequest):
         raise HTTPException(status_code=400, detail="Message cannot be empty.")
 
     try:
+        # Ensure OpenAI client is properly created
+        client = openai.OpenAI(api_key=OPENAI_API_KEY)
+
         # Provide the chatbot with knowledge
         system_prompt = f"""
-        You are a friendly AI assistant. 
-        - Always give conversational, engaging responses.
-        - Only use knowledge.txt information if it is relevant.
-        - If the user says 'hi' or 'hello', greet them naturally.
-        - If the question is not covered by knowledge.txt, respond as a helpful AI.
+        You are a helpful AI assistant. Use the following knowledge to answer the user's question:
+        {custom_knowledge}
         """
 
         response = client.chat.completions.create(
@@ -174,4 +176,4 @@ def chat(request: ChatRequest):
         return {"reply": bot_reply}
 
     except openai.OpenAIError as e:
-        return {"reply": f"Sorry, I'm having trouble right now. {str(e)}"}
+        raise HTTPException(status_code=500, detail=f"OpenAI API error: {str(e)}")
