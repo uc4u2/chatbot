@@ -1,0 +1,84 @@
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse
+from pydantic import BaseModel
+import openai
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+if not OPENAI_API_KEY:
+    raise ValueError("Missing OpenAI API key. Set OPENAI_API_KEY in your .env file.")
+
+# Initialize OpenAI Client
+openai.api_key = OPENAI_API_KEY
+
+app = FastAPI()
+
+# Request model
+class ChatRequest(BaseModel):
+    message: str
+
+# Serve simple HTML page
+def get_html_page():
+    return """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Simple Chatbot</title>
+    </head>
+    <body>
+        <h2>Chat with AI</h2>
+        <textarea id="chat" rows="10" cols="50" readonly></textarea><br>
+        <input type="text" id="message" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
+
+        <script>
+            async function sendMessage() {
+                const message = document.getElementById("message").value;
+                if (!message.trim()) return;
+
+                const chatBox = document.getElementById("chat");
+                chatBox.value += "You: " + message + "\n";
+                document.getElementById("message").value = "";
+
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message })
+                });
+
+                const data = await response.json();
+                chatBox.value += "Bot: " + data.reply + "\n";
+            }
+        </script>
+    </body>
+    </html>
+    """
+
+@app.get("/", response_class=HTMLResponse)
+def serve_html():
+    return get_html_page()
+
+@app.post("/chat")
+def chat(request: ChatRequest):
+    user_message = request.message.strip()
+
+    if not user_message:
+        raise HTTPException(status_code=400, detail="Message cannot be empty.")
+
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": user_message}],
+            max_tokens=150
+        )
+        bot_reply = response["choices"][0]["message"]["content"].strip()
+        return {"reply": bot_reply}
+
+    except openai.error.OpenAIError as e:
+        raise HTTPException(status_code=500, detail=f"OpenAI API error: {str(e)}")
