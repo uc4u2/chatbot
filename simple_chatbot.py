@@ -3,13 +3,14 @@ from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 import openai
 import os
-import asyncio
+from dotenv import load_dotenv
 
 # Load environment variables
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+load_dotenv()
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 if not OPENAI_API_KEY:
-    raise ValueError("Missing OpenAI API key. Set OPENAI_API_KEY in Render environment variables.")
+    raise ValueError("Missing OpenAI API key. Set OPENAI_API_KEY in your .env file.")
 
 # Initialize OpenAI Client
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
@@ -26,24 +27,6 @@ if os.path.exists(knowledge_file):
         custom_knowledge = f.read()
 else:
     custom_knowledge = "No custom knowledge available."
-
-# Function to Search Local Knowledge
-def search_knowledge_base(user_message):
-    with open("knowledge.txt", "r", encoding="utf-8") as f:
-        knowledge = f.read().split("\n")
-    for line in knowledge:
-        if user_message.lower() in line.lower():
-            return f"I found this in my knowledge base: {line.strip()}"
-    return None
-
-# Improved System Prompt
-system_prompt = """
-You are a friendly, conversational AI assistant. Your goal is to provide natural, engaging responses like a human assistant.
-- Always respond in a casual, friendly way.
-- Use knowledge from the knowledge base only if it is directly related to the user's question.
-- If a user just says "hi" or "hello", greet them normally.
-- If the question is not covered by the knowledge base, respond naturally as an AI assistant.
-"""
 
 # Function to Serve HTML
 def get_html_page():
@@ -125,6 +108,7 @@ def get_html_page():
             inputField.addEventListener("keypress", function(event) {
                 if (event.key === "Enter") {
                     sendMessage();
+                    event.preventDefault(); // Prevent form submission
                 }
             });
 
@@ -132,7 +116,7 @@ def get_html_page():
                 const message = inputField.value.trim();
                 if (!message) return;
 
-                chatBox.value += "You: " + message + "\\n";  // Fixed escaping
+                chatBox.value += "You: " + message + "\\n";
                 inputField.value = "";
                 chatBox.scrollTop = chatBox.scrollHeight;
 
@@ -143,11 +127,11 @@ def get_html_page():
                 })
                 .then(response => response.json())
                 .then(data => {
-                    chatBox.value += "Bot: " + data.reply + "\\n";  // Fixed escaping
+                    chatBox.value += "Bot: " + (data.reply || "I didn't catch that.") + "\\n";
                     chatBox.scrollTop = chatBox.scrollHeight;
                 })
                 .catch(error => {
-                    chatBox.value += "Error: Could not fetch response.\\n";  // Fixed escaping
+                    chatBox.value += "Error: Could not fetch response.\\n";
                     console.error("Fetch error:", error);
                 });
             }
@@ -156,43 +140,38 @@ def get_html_page():
 </body>
 </html>"""
 
-
 @app.get("/", response_class=HTMLResponse)
 def serve_html():
     return get_html_page()
 
-chat_history = []  # Store the last 5 messages for better context
-
 @app.post("/chat")
-async def chat(request: ChatRequest):
+def chat(request: ChatRequest):
     user_message = request.message.strip()
+
     if not user_message:
-        return {"reply": "I didn't catch that. Can you say it again?"}
-    
-    if user_message.lower() in ["hi", "hello", "hey"]:
-        return {"reply": "Hey there! How can I help you today?"}
-    
-    local_response = search_knowledge_base(user_message)
-    if local_response:
-        return {"reply": local_response}
-    
-    chat_history.append({"role": "user", "content": user_message})
-    if len(chat_history) > 5:
-        chat_history.pop(0)
-    
-    response = await asyncio.to_thread(
-        client.chat.completions.create,
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": system_prompt}
-        ] + chat_history,
-        max_tokens=150
-    )
-    
-    bot_reply = response.choices[0].message.content.strip() if response.choices else "I'm not sure how to respond to that."
-    
-    chat_history.append({"role": "assistant", "content": bot_reply})
-    if len(chat_history) > 5:
-        chat_history.pop(0)
-    
-    return {"reply": bot_reply}
+        raise HTTPException(status_code=400, detail="Message cannot be empty.")
+
+    try:
+        # Provide the chatbot with knowledge
+        system_prompt = f"""
+        You are a friendly AI assistant. 
+        - Always give conversational, engaging responses.
+        - Only use knowledge.txt information if it is relevant.
+        - If the user says 'hi' or 'hello', greet them naturally.
+        - If the question is not covered by knowledge.txt, respond as a helpful AI.
+        """
+
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_message}
+            ],
+            max_tokens=150
+        )
+
+        bot_reply = response.choices[0].message.content.strip()
+        return {"reply": bot_reply}
+
+    except openai.OpenAIError as e:
+        return {"reply": f"Sorry, I'm having trouble right now. {str(e)}"}
