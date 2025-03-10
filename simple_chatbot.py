@@ -43,15 +43,24 @@ def get_cached_response(user_message):
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": custom_knowledge},
+            {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_message}
         ],
         max_tokens=150
     )
     return response.choices[0].message.content.strip()
 
-# Function to Serve HTML
+# Improved System Prompt
+system_prompt = f"""
+You are a friendly and conversational AI assistant. Your goal is to have natural, engaging conversations while also using the knowledge provided. 
+- Keep responses short and to the point.
+- If the user says "hi" or "hello", greet them naturally.
+- If the user asks a personal question like "do you know Yousef?" only respond if there is relevant knowledge. Otherwise, say you don’t know.
+- If the user asks something not in the knowledge base, respond as a general AI assistant.
+{custom_knowledge}
+"""
 
+# Function to Serve HTML
 def get_html_page():
     return """<!DOCTYPE html>
 <html lang="en">
@@ -60,55 +69,12 @@ def get_html_page():
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Chatbot</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-            margin: 0;
-        }
-        .chat-container {
-            width: 90%;
-            max-width: 400px;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        textarea {
-            width: 100%;
-            height: 250px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            resize: none;
-            overflow-y: auto;
-        }
-        input {
-            width: 75%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-        button {
-            width: 20%;
-            padding: 10px;
-            border: none;
-            background-color: #28a745;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #218838;
-        }
+        body { font-family: Arial, sans-serif; text-align: center; background: #f4f4f4; padding: 20px; }
+        .chat-container { max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); }
+        textarea { width: 100%; height: 250px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; resize: none; overflow-y: auto; }
+        input { width: 75%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        button { width: 20%; padding: 10px; background-color: #28a745; color: white; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #218838; }
     </style>
 </head>
 <body>
@@ -120,28 +86,21 @@ def get_html_page():
             <button id="sendButton">Send</button>
         </div>
     </div>
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const chatBox = document.getElementById("chat");
             const inputField = document.getElementById("message");
             const sendButton = document.getElementById("sendButton");
-
             sendButton.addEventListener("click", sendMessage);
             inputField.addEventListener("keypress", function(event) {
-                if (event.key === "Enter") {
-                    sendMessage();
-                }
+                if (event.key === "Enter") { sendMessage(); }
             });
-
             function sendMessage() {
                 const message = inputField.value.trim();
                 if (!message) return;
-
-                chatBox.value += "You: " + message + "\\n";  // Correct escaping
+                chatBox.value += "You: " + message + "\n";
                 inputField.value = "";
                 chatBox.scrollTop = chatBox.scrollHeight;
-
                 fetch("/chat", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -149,11 +108,11 @@ def get_html_page():
                 })
                 .then(response => response.json())
                 .then(data => {
-                    chatBox.value += "Bot: " + data.reply + "\\n";  // Correct escaping
+                    chatBox.value += "Bot: " + data.reply + "\n";
                     chatBox.scrollTop = chatBox.scrollHeight;
                 })
                 .catch(error => {
-                    chatBox.value += "Error: Could not fetch response.\\n";  // Correct escaping
+                    chatBox.value += "Error: Could not fetch response.\n";
                     console.error("Fetch error:", error);
                 });
             }
@@ -166,11 +125,16 @@ def get_html_page():
 def serve_html():
     return get_html_page()
 
+chat_history = []  # Memory for user conversation
+
 @app.post("/chat")
 async def chat(request: ChatRequest):
     user_message = request.message.strip()
     if not user_message:
         raise HTTPException(status_code=400, detail="Message cannot be empty.")
+    chat_history.append({"role": "user", "content": user_message})
+    if len(chat_history) > 5:
+        chat_history.pop(0)
     local_response = search_knowledge_base(user_message)
     if local_response:
         return {"reply": local_response}
@@ -179,11 +143,13 @@ async def chat(request: ChatRequest):
             client.chat.completions.create,
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": custom_knowledge},
-                {"role": "user", "content": user_message}
-            ],
+                {"role": "system", "content": system_prompt},
+            ] + chat_history,
             max_tokens=150
         )
         return response.choices[0].message.content.strip()
     bot_reply = await fetch_openai_response()
+    chat_history.append({"role": "assistant", "content": bot_reply})
+    if len(chat_history) > 5:
+        chat_history.pop(0)
     return {"reply": bot_reply}
