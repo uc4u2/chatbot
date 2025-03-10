@@ -3,11 +3,9 @@ from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 import openai
 import os
-from dotenv import load_dotenv
+import os
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
-# Load environment variables
-load_dotenv()
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 if not OPENAI_API_KEY:
     raise ValueError("Missing OpenAI API key. Set OPENAI_API_KEY in your .env file.")
