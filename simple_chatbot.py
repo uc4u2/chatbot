@@ -1,10 +1,9 @@
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import HTMLResponse, StreamingResponse
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 import openai
 import os
 import asyncio
-from functools import lru_cache
 
 # Load environment variables
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
@@ -48,11 +47,6 @@ You are a friendly, conversational AI assistant. Your goal is to provide natural
 
 # Function to Serve HTML
 def get_html_page():
-    return """<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta def get_html_page():
     return """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -138,7 +132,7 @@ def get_html_page():
                 const message = inputField.value.trim();
                 if (!message) return;
 
-                chatBox.value += "You: " + message + "\\n";  // Correct escaping
+                chatBox.value += "You: " + message + "\n";
                 inputField.value = "";
                 chatBox.scrollTop = chatBox.scrollHeight;
 
@@ -149,11 +143,11 @@ def get_html_page():
                 })
                 .then(response => response.json())
                 .then(data => {
-                    chatBox.value += "Bot: " + data.reply + "\\n";  // Correct escaping
+                    chatBox.value += "Bot: " + data.reply + "\n";
                     chatBox.scrollTop = chatBox.scrollHeight;
                 })
                 .catch(error => {
-                    chatBox.value += "Error: Could not fetch response.\\n";  // Correct escaping
+                    chatBox.value += "Error: Could not fetch response.\n";
                     console.error("Fetch error:", error);
                 });
             }
@@ -161,7 +155,6 @@ def get_html_page():
     </script>
 </body>
 </html>"""
-
 
 @app.get("/", response_class=HTMLResponse)
 def serve_html():
