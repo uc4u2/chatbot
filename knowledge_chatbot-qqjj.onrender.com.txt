@@ -1,0 +1,1135 @@
+for my resume i made a chat bot that use open ai api to answer questions about my resume , i need to add mor asnswer about me , i give you my info and you give me some more questions and answer that recruters looking for Yousef Jalali
+Toronto, ON
+Email: yousefsamak@yahoo.com | Phone: +1 (514)-430-0000
+LinkedIn
+Professional Summary
+AWS Solutions Architect with expertise in designing, deploying, and managing scalable and secure cloud infrastructures. Skilled in AWS services such as VPC, EC2, S3, CloudFormation, Amplify, Lambda, API Gateway, and serverless architecture to optimize web application performance and business operations. Experienced in cloud automation, cost optimization, and infrastructure as code (IaC) to enhance deployment efficiency. Proficient in React, Next.js, Python, and PowerShell for cloud-based applications and SEO automation. Currently pursuing CCNA certification to expand networking and cloud expertise.
+Technical Skills & Tools
+Cloud Computing & DevOps:
+• AWS Services: VPC, EC2, S3, CloudFormation, Lambda, API Gateway, Amplify, CloudFront
+• Infrastructure as Code (IaC): CloudFormation, Terraform (Basics)
+• Automation & CI/CD: AWS CodePipeline, AWS CLI, PowerShell, Python
+• Security & Networking: AWS IAM, VPN, DNS, TCP/IP, Firewall Configurations
+Web & Application Development:
+• Frontend & Backend: JavaScript, React, Next.js (SSR), Node.js, Python
+• Databases: MySQL, Firebase Authentication
+• Payment Integration: Stripe for subscription-based platforms
+• SEO & Performance Optimization: SEO automation with Python & PowerShell
+Professional Experience
+AWS Solutions Architect
+GTArealmedia.com – Toronto, ON | January 2024 – Present
+• Architected and deployed scalable cloud infrastructures using AWS services such as EC2, S3, Lambda, and CloudFormation.
+• Implemented serverless applications with AWS Lambda & API Gateway, reducing infrastructure costs by 30%.
+• Automated infrastructure deployments using CloudFormation and PowerShell, reducing provisioning time by 40%.
+• Optimized cloud security by implementing IAM roles, VPNs, and encryption standards.
+• Developed SEO automation solutions leveraging Python and PowerShell to enhance website traffic and improve Core Web Vitals.
+Cloud Projects & Achievements
+GrandpaOliver.com – Subscription-Based Web Application
+AWS Cloud Infrastructure for Digital Content Platform
+• Technologies Used: AWS Amplify, Lambda, API Gateway, CloudFront, Firebase, Stripe, React, Next.js, 
+• Deployed a full-stack cloud-native application delivering magical bedtime stories for children.
+• Reduced backend costs by 35% using serverless functions (Lambda & API Gateway) for subscription management.
+• Integrated Firebase Authentication for secure user access to premium content.
+• Optimized global content delivery using AWS CloudFront, improving page load speeds by 50%.
+• Implemented Stripe Payments for handling multiple subscription models (Monthly, Yearly, Trial).
+AWS Cloud Setup for Small Law Firms
+Developed a reusable AWS CloudFormation template to automate cloud infrastructure setup for small law firms. The solution enables secure remote access, scalable networking, and centralized document storage. Features include automated VPC creation with public/private subnets, secure VPN access, and S3 storage for legal documents. This setup enhances security, improves collaboration, and ensures compliance with data protection standards.
+AliExpress-Scraper – Automated Product Research Tool
+Designed a Python-based tool to extract and analyze winning products from AliExpress using RapidAPI, filtering products based on sales volume, ratings, and price thresholds. Integrated with PowerShell for automation, enabling scheduled scraping and report generation in Excel. This tool helps e-commerce businesses identify profitable products quickly without manual research.
+SEO Automation & Website Optimization Tool
+Built an SEO automation platform to audit, optimize, and track website rankings on Google. Utilized Python (Flask) for backend automation, React (Next.js) for frontend SEO tools, and PowerShell for scheduled SEO audits. Features include competitor analysis, backlink tracking, Core Web Vitals optimization, and automated structured data enhancements, helping businesses improve search rankings and website performance.
+Personal Portfolio & AI VoiceOver Project
+Developed a cloud-hosted portfolio website using React.js and AWS Amplify to showcase skills, projects, and experiences. Integrated AWS Lambda for backend logic and AWS CloudFront for optimized content delivery. Additionally, worked on an AI-based VoiceOver project using deep learning models for speech synthesis, enhancing digital content accessibility and automation in media.
+ production.Education
+• DCS / DEC in Network Administration – Herzing College, Montréal, QC (June 2014 – May 2015)
+• Diploma in Professional Sales Representative – Saint Pius College, Montréal, QC (September 2015 – September 2016)
+Soft Skills
+• Problem-Solving & Troubleshooting – Strong ability to resolve cloud and infrastructure challenges efficiently.
+• Collaboration & Leadership – Worked cross-functionally with teams to enhance AWS environments.
+• Time & Project Management – Delivered cloud projects on time, improving deployment workflows.
+Languages
+• English – Professional Proficiency  • French – Intermediate Proficiency  
+
+I am an IT professional with over a decade of experience in technical support, networking, and web development. I specialize in resolving technical challenges, configuring systems, and managing IT infrastructures to ensure seamless operations.
+
+Holding a DEC in Network Administration, I have hands-on experience in Windows Server installation, Active Directory management, and networking protocols like TCP/IP, VPNs, and DNS. Currently pursuing CCNA certification, I am expanding my expertise in networking and AWS cloud technologies, including VPCs, EC2, and S3, to design scalable cloud solutions.
+
+With a growing focus on cloud computing, I aim to help small businesses transition to the cloud, optimize infrastructure, and enable remote work solutions. My blend of technical expertise and a problem-solving mindset allows me to deliver reliable IT solutions tailored to business needs.
+
+AWS Cloud Solutions
+AWS Cloud Solutions
+AWS Cloud Solutions
+gtarealmedia.com/ · Contract Full-timegtarealmedia.com/ · Contract Full-time
+Nov 2024 - Present · 5 mosNov 2024 to Present · 5 mos
+Toronto, Ontario, CanadaToronto, Ontario, Canada
+As an AWS Cloud Architect, I design and manage scalable cloud infrastructure for hosting and optimizing web applications. I oversee cloud deployments, automation, and security to ensure high availability and performance for business operations.
+
+In addition, I have implemented SEO automation strategies leveraging Python, React, and PowerShell to enhance search rankings, improve site performance, and track competitor data. I developed automated SEO audits, backlink tracking, and structured data optimization, ensuring Photo Artisto maintains a strong digital presence.
+
+Using Next.js for server-side rendering (SSR), I enhance website load speed and search engine crawlability. My expertise in Core Web Vitals optimization and AWS cloud infrastructure enables efficient, secure, and high-performing online platforms that drive business growth.As an AWS Cloud Architect, I design and manage scalable cloud infrastructure for hosting and optimizing web applications. I oversee cloud deployments, automation, and security to ensure high availability and performance for business operations. In addition, I have implemented SEO automation strategies leveraging Python, React, and PowerShell to enhance search rankings, improve site performance, and track competitor data. I developed automated SEO audits, backlink tracking, and structured data optimization, ensuring Photo Artisto maintains a strong digital presence. Using Next.js for server-side rendering (SSR), I enhance website load speed and search engine crawlability. My expertise in Core Web Vitals optimization and AWS cloud infrastructure enables efficient, secure, and high-performing online platforms that drive business growth.
+Visual Basic, Python (Programming Language) and +4 skills
+
+
+
+IT Technician/AWS Cloud Architect 
+IT Technician/AWS Cloud Architect 
+photoartisto.comphotoartisto.com
+May 2024 - Jan 2025 · 9 mosMay 2024 to Jan 2025 · 9 mos
+Greater Toronto Area, Canada · On-siteGreater Toronto Area, Canada · On-site
+Install computer hardware, operating systems, drivers and applications
+Troubleshoot, repair and replace IT equipment as needed 
+Assist in the monitoring and reporting of website traffic and performance
+Provide web solutions using HTML, JavaScript and PHP&MYSQL on Apache
+Monitor and execute standards for page design and graphics development
+Inspect and report on website traffic and performance
+
+
+
+
+MTN
+7 yrs7 yrs
+Technical Support Specialist
+Technical Support Specialist
+Feb 2008 - Jan 2014 · 6 yrsFeb 2008 to Jan 2014 · 6 yrs
+IranIran
+Provided technical support to users and helped them install, operate and make minor repairs at the desktop level
+Provided user support and customer service with technical matters.
+Provide technical support in networked environments- wired, wireless, VPN, TCP/IP protocol, routing concepts and basic networking such as DHCP, DNS, etc. 
+Knowledge and experience supporting networked and stand-alone printers
+Responsible for installing, configuring, troubleshooting, and testing Wi-Fi modems.
+Worked as a team with other agents to resolve issues.
+Ensured prompt resolution of tickets submissions via ticketing systems.
+Operating System Migrations from Windows XP to Windows 7
+Provided technical support to subscribers experiencing difficulties with computer hardware, Wi-Fi modem, computer applications and communications software.
+Provided technical support to users and helped them install, operate and make minor repairs at the desktop level Provided user support and customer service with technical matters. Provide technical support in networked environments- wired, wireless, VPN, TCP/IP protocol, routing concepts and basic networking such as DHCP, DNS, etc. Knowledge and experience supporting networked and stand-alone printers Responsible for installing, configuring, troubleshooting, and testing Wi-Fi modems. Worked as a team with other agents to resolve issues. Ensured prompt resolution of tickets submissions via ticketing systems. Operating System Migrations from Windows XP to Windows 7 Provided technical support to subscribers experiencing difficulties with computer hardware, Wi-Fi modem, computer applications and communications software. 
+Desktop Computers
+
+EducationEducation
+Herzing College
+Herzing College
+Herzing College
+Associate's Degree, Network and System Administration/AdministratorAssociate's Degree, Network and System Administration/Administrator
+2014 - 20142014 - 2014
+Windows
+Guilan University logo
+Guilan University
+Guilan University
+Bachelor's degree, English Language and Literature, GeneralBachelor's degree, English Language and Literature, General
+2000 - 2004
+
+
+
+
+
+
+
+Node.js
+Node.js
+AWS Cloud Solutions at gtarealmedia.com/AWS Cloud Solutions at gtarealmedia.com/
+JavaScript
+JavaScript
+AWS Cloud Solutions at gtarealmedia.com/AWS Cloud Solutions at gtarealmedia.com/
+Next.js
+Next.js
+SEO-AnalyzerSEO-Analyzer
+React 
+React 
+SEO-AnalyzerSEO-Analyzer
+Search Engine Optimization (SEO)
+Search Engine Optimization (SEO)
+SEO-AnalyzerSEO-Analyzer
+Python (Programming Language)
+Python (Programming Language)
+AWS Cloud Solutions at gtarealmedia.com/AWS Cloud Solutions at gtarealmedia.com/
+AliExpress-ScraperAliExpress-Scraper
+SEO-AnalyzerSEO-Analyzer
+Artificial Intelligence (AI)
+Artificial Intelligence (AI)
+AliExpress-ScraperAliExpress-Scraper
+React.js
+React.js
+AI VoiceOver Generator – Cloud-based Text-to-Speech PlatformAI VoiceOver Generator – Cloud-based Text-to-Speech Platform
+AWS Amplify
+AWS Amplify
+AI VoiceOver Generator – Cloud-based Text-to-Speech PlatformAI VoiceOver Generator – Cloud-based Text-to-Speech Platform
+Amazon Polly
+Amazon Polly
+AI VoiceOver Generator – Cloud-based Text-to-Speech PlatformAI VoiceOver Generator – Cloud-based Text-to-Speech Platform
+AWS S3 & CloudFront 
+AWS S3 & CloudFront 
+AWS Cloud Solutions at gtarealmedia.com/AWS Cloud Solutions at gtarealmedia.com/
+AI VoiceOver Generator – Cloud-based Text-to-Speech PlatformAI VoiceOver Generator – Cloud-based Text-to-Speech Platform
+AWS Lambda & API Gateway
+AWS Lambda & API Gateway
+AI VoiceOver Generator – Cloud-based Text-to-Speech PlatformAI VoiceOver Generator – Cloud-based Text-to-Speech Platform
+IAM & Cognito
+IAM & Cognito
+AI VoiceOver Generator – Cloud-based Text-to-Speech PlatformAI VoiceOver Generator – Cloud-based Text-to-Speech Platform
+DevOps
+DevOps
+Web Designer/Front-End Web DeveloperWeb Designer/Front-End Web Developer
+AWS Cloud Setup for Small BusinessAWS Cloud Setup for Small Business
+Windows
+Windows
+Herzing CollegeHerzing College
+Amazon Relational Database Service (RDS)
+Amazon Relational Database Service (RDS)
+AWS Cloud Setup for Small BusinessAWS Cloud Setup for Small Business
+Desktop Computers
+Desktop Computers
+Company logo
+Technical Support Specialist at MTNTechnical Support Specialist at MTN
+Amazon VPC
+Amazon VPC
+Computer Networking
+Computer Networking
+Remote Work Solutions
+Remote Work Solutions
+AWS Cloud Setup for Small BusinessAWS Cloud Setup for Small Business
+Amazon Web Services (AWS)
+Amazon Web Services (AWS)
+AWS Cloud Setup for Small BusinessAWS Cloud Setup for Small Business
+AWS CloudFormation
+AWS CloudFormation
+AWS Cloud Setup for Small BusinessAWS Cloud Setup for Small Business
+AWS Virtual Private Cloud
+AWS Virtual Private Cloud
+AWS Cloud Setup for Small BusinessAWS Cloud Setup for Small Business
+Amazon EC2
+Amazon EC2
+AWS Cloud Solutions at gtarealmedia.com/AWS Cloud Solutions at gtarealmedia.com/
+AWS Cloud Setup for Small BusinessAWS Cloud Setup for Small Business
+AWS S3 
+AWS S3 
+AWS Cloud Setup for Small BusinessAWS Cloud Setup for Small Business
+AWS VPN
+AWS VPN
+AWS Cloud Setup for Small BusinessAWS Cloud Setup for Small Business
+doman
+doman
+Visual Basic
+Visual Basic
+AWS Cloud Solutions at gtarealmedia.com/AWS Cloud Solutions at gtarealmedia.com/
+WordPress Design
+WordPress Design
+PhpMyAdmin
+PhpMyAdmin
+HTML5
+HTML5
+Technical Support
+Technical Support
+13 endorsements
+13 endorsements
+Operating Systems
+Operating Systems
+11 endorsements
+11 endorsements
+Help Desk Support
+Help Desk Support
+11 endorsements
+11 endorsements
+Call Centers
+Call Centers
+10 endorsements
+10 endorsements
+Windows 7
+Windows 7
+10 endorsements
+10 endorsements
+Web Development
+Web Development
+6 endorsements
+6 endorsements
+Software Installation
+Software Installation
+7 endorsements
+7 endorsements
+Bilingual
+Bilingual
+1 endorsement
+1 endorsement
+Web Design
+Web Design
+2 endorsements
+2 endorsements
+Website Development
+Website Development
+2 endorsements
+2 endorsements
+Dreamweaver
+Dreamweaver
+2 endorsements
+2 endorsements
+Photoshop
+Photoshop
+3 endorsements
+3 endorsements
+Web Content
+Web Content
+2 endorsements
+2 endorsements
+MySQL
+MySQL
+4 endorsements
+4 endorsements
+PHP
+PHP
+3 endorsements
+3 endorsements
+LAMP
+LAMP
+2 endorsements
+2 endorsements
+HTML
+HTML
+9 endorsements
+9 endorsements
+Wordpress
+Wordpress
+2 endorsements
+2 endorsements
+CSS
+CSS
+2 endorsements
+2 endorsements
+Joomla
+Joomla
+2 endorsements
+2 endorsements
+Windows XP Pro
+Windows XP Pro
+1 endorsement
+1 endorsement
+Windows Server
+Windows Server
+6 endorsements
+6 endorsements
+System Administration
+System Administration
+5 endorsements
+5 endorsements
+Microsoft Office
+Microsoft Office
+14 endorsements
+14 endorsements
+Call Center
+Call Center
+2 endorsements
+2 endorsements
+Hardware Installation
+Hardware Installation
+2 endorsements
+2 endorsements
+Active Directory
+Active Directory
+3 endorsements
+3 endorsements
+FTP
+FTP
+2 endorsements
+2 endorsements
+Group Policy
+Group Policy
+2 endorsements
+2 endorsements
+CMS
+CMS
+2 endorsements
+2 endorsements
+Virtual PC
+Virtual PC
+2 endorsements
+2 endorsements
+TCP/IP
+TCP/IP
+7 endorsements
+7 endorsements
+Subnetting
+Subnetting
+2 endorsements
+2 endorsements
+Windows 8
+Windows 8
+2 endorsements
+2 endorsements
+Hyper-V
+Hyper-V
+2 endorsements
+2 endorsements
+Cisco Routers
+Cisco Routers
+2 endorsements
+2 endorsements
+Routing
+Routing
+2 endorsements
+2 endorsements
+Windows XP
+Windows XP
+5 endorsements
+5 endorsements
+Customer Service
+Customer Service
+7 endorsements
+7 endorsements
+Team Leadership
+Team Leadership
+4 endorsements
+4 endorsements
+Team Management
+Team Management
+3 endorsements
+3 endorsements
+Managementsume for recruiters, hiring managers, and potential collaborators.
+
+SEO Automation & Website Optimization Tool # 
+
+Overview
+
+This project is an SEO automation web application that helps analyze, optimize, and track website rankings on search engines like Google. It combines Python (Flask) for backend automation, React (Next.js) for frontend SEO optimizations, and PowerShell for scheduled automation tasks.
+
+Features
+
+Automated Website SEO Audits – Extract and analyze meta tags, keywords, page speed, and more# Competitor SEO Analysis – Compare backlinks, rankings, and metadata# Backlink Tracking – Monitor incoming links and identify growth opportunities# Core Web Vitals Optimization – Improve LCP, FID, CLS for better user experience# Structured Data & Rich Snippets – Implement JSON-LD for enhanced Google indexing# Automated Reports & Alerts – Scheduled SEO audits using PowerShell# User-Friendly Dashboard – Clean React frontend for data visualization
+Technology Stack
+
+Backend (Python)
+
+Flask – Lightweight API server
+
+BeautifulSoup & Requests – Web scraping for SEO analysis
+
+Selenium – Automated browser testing (for page speed insights)
+
+Pandas & OpenPyXL – Data storage and report generation
+
+Frontend (React & Next.js)
+
+Next.js (Server-Side Rendering) – SEO-friendly page rendering
+
+React Chart.js – Data visualization for SEO metrics
+
+Tailwind CSS – Modern and responsive UI
+
+Automation & Deployment
+
+PowerShell & Task Scheduler – Run SEO audits on schedule
+
+Docker – Containerized deployment
+
+GitHub Actions – CI/CD for automated testing
+
+Installation & Setup
+
+Backend Setup (Python)
+
+Clone the repository
+
+git clone https://github.com/your-username/seo-automation-tool.git cd seo-automation-tool/backend
+
+Create & activate a virtual environment
+
+python -m venv venv venv\Scripts\activate # Windows source venv/bin/activate # macOS/Linux
+
+Install dependencies
+
+pip install -r requirements.txt
+
+Run the Flask server
+
+python app.py
+
+Frontend Setup (React/Next.js)
+
+Navigate to the frontend folder
+
+cd ../frontend
+
+Install dependencies
+
+npm install
+
+Start the development server
+
+npm run dev
+
+Running SEO Scripts Manually
+
+cd backend/scripts python seo_audit.py
+
+Automating SEO Tasks with PowerShell
+
+powershell -ExecutionPolicy RemoteSigned -File automate_audit.ps1
+
+Usage
+
+Run the backend and frontend servers
+
+Enter a website URL to analyze
+
+View SEO insights including metadata, competitor rankings, and backlink reports
+
+Automate recurring SEO audits with scheduled tasks
+
+Contributing
+
+Fork & Star # the repository if you find it helpful!# Pull requests are welcome! Feel free to contribute improvements to scripts, UI, or automation tasks.
+License
+
+MIT License – Free to use and modify.
+Contact & Support
+
+Email: photoartisto.ca@gmail.com# https://www.linkedin.com/in/yousef-samak/# Website: www.photoartisto.com🔗 [View My Website](https://ddrgpllph0xp2.cloudfront.net 
+
+📜 About
+This website highlights:
+
+My skills & expertise
+Featured projects & achievements
+Contact information for potential recruiters or hiring managers
+🛠️ Technologies Used
+Frontend: React.js
+Backend: AWS Amplify, Lambda
+Database: AWS DynamoDB (optional for projects)
+Hosting: AWS S3 + CloudFront
+CI/CD: GitHub Actions + AWS Amplify
+📥 Installation & Setup (Local Development)
+To set up this project locally, follow these steps:
+
+1️⃣ Clone the Repository
+ git clone https://github.com/yourusername/portfolio-website.git
+ cd portfolio-website
+2️⃣ Install Dependencies
+npm install
+3️⃣ Start the Development Server
+npm start
+This will start a local server at http://localhost:3000/.
+
+📡 Deployment (AWS Amplify + S3)
+Push changes to GitHub
+git add .
+git commit -m "Updated portfolio"
+git push origin main
+AWS Amplify automatically deploys updates on each push.
+🔥 Features
+📂 Project Showcase: Displays a list of my best projects.
+💼 Resume & Work Experience: Lists my professional background.
+📬 Contact Section: Allows recruiters to reach out easily.
+🎨 Modern UI: Responsive & minimalistic design.
+📞 Contact Me
+📧 Email: yousefsamak@yahoo.com 🔗 LinkedIn: https://www.linkedin.com/in/yousef-samak/
+
+⭐ Contribute
+Feel free to fork this repository and make improvements!
+
+git clone https://github.com/uc4u2/portfolio-website.git   AliExpress-Scraper
+A beginner-friendly tool to extract and analyze winning products from AliExpress using Python and PowerShell.
+
+Table of Contents
+Introduction
+System Requirements
+Getting Started
+Project Structure
+Setting Up the Environment
+Installing Dependencies
+Usage
+Running the Scraper Manually
+Scheduling the Scraper with PowerShell
+How It Works
+Troubleshooting
+Contact
+Introduction
+Product research is critical for identifying profitable products in the competitive e-commerce market. AliExpress-Scraper automates the process by fetching product data from AliExpress (via RapidAPI), filtering it based on key criteria (minimum orders, rating, and maximum price), and exporting the results to an Excel file. This tool is designed for beginners—no UI or advanced programming needed. Simply run the script using Windows PowerShell to get your Excel report.
+
+System Requirements
+Operating System: Windows 10 or later
+Software:
+Python (latest version recommended)
+Microsoft Excel (or a free alternative like LibreOffice Calc)
+Windows PowerShell (pre-installed on Windows)
+Internet Connection: Required to fetch data from the AliExpress API
+Getting Started
+Project Structure
+Your project folder should look like this: C:\Aliscraper └── backend ├── scraper.py ├── RunScraper.ps1 └── README.md
+
+Setting Up the Environment
+Create Project Folders:
+
+Create a folder named Aliscraper on your C: drive.
+Inside, create a subfolder named backend.
+Set Up a Python Virtual Environment:
+
+Open Windows PowerShell and navigate to the backend folder:
+cd C:\Aliscraper\backend
+Create a virtual environment:
+python -m venv venv
+Activate the virtual environment:
+.\venv\Scripts\Activate.ps1
+Your prompt should now show (venv).
+Installing Dependencies
+With the virtual environment activated, install the required libraries:
+
+pip install flask requests pandas flask-cors openpyxl
+
+Note: Although Flask and flask-cors are installed for potential future expansion, this project uses Python and PowerShell only.
+
+Usage
+Running the Scraper Manually
+Open Windows PowerShell.
+Navigate to the backend folder:
+powershell
+
+cd C:\Aliscraper\backend
+Activate the Virtual Environment:
+powershell
+
+.\venv\Scripts\Activate.ps1
+Run the Python Script:
+powershell
+
+python scraper.py
+Check the Output:
+The script logs messages in PowerShell and creates an Excel file named winning_products.xlsx in the backend folder.
+Scheduling the Scraper with PowerShell
+Create a PowerShell Script File:
+Save the following content as RunScraper.ps1 in your C:\Aliscraper\backend folder:
+powershell
+
+cd C:\Aliscraper\backend
+.\venv\Scripts\Activate.ps1
+python scraper.py
+Schedule the Task Using Windows Task Scheduler:
+Press Win + R, type taskschd.msc, and press Enter.
+Click Create Basic Task… and follow these steps:
+Name: "Run AliExpress Scraper"
+Trigger: Set your desired schedule (e.g., daily or every few hours).
+Action: "Start a Program"
+Program/Script: powershell.exe
+Add Arguments:
+powershell
+
+-ExecutionPolicy Bypass -File "C:\Aliscraper\backend\RunScraper.ps1"
+Finish and save the task. The scraper will run automatically according to the schedule.
+How It Works
+The AliExpress-Scraper script follows these steps:
+
+Data Extraction:
+
+Uses the RapidAPI endpoint for AliExpress to fetch product data for multiple search queries.
+Iterates through pages and collects product details such as name, price, orders, and rating.
+Data Filtering:
+
+Applies winning criteria:
+Minimum orders: 5
+Minimum rating: 4
+Maximum price: $30.0
+Sorts the filtered (winning) products in descending order by the number of orders.
+Data Export:
+
+Converts the filtered product list into an Excel file (winning_products.xlsx) using Pandas and openpyxl.
+Troubleshooting
+API Errors:
+Verify that your API key is correct.
+Check that you are within the allowed rate limits.
+Python Errors:
+Ensure all required libraries are installed.
+Make sure your virtual environment is activated.
+PowerShell Issues:
+Confirm that the paths in your scripts are correct.
+Ensure you are running PowerShell with the appropriate execution policy.
+License
+
+Contact
+For any questions or assistance, please contact:
+photoartisto.ca@gmail.com
+
+PowerShell Command Summary
+powershell
+
+# Verify Python Installation:
+python --version
+
+# Navigate to Backend Folder:
+cd C:\Aliscraper\backend
+
+# Create & Activate Virtual Environment:
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+
+# Install Dependencies:
+pip install flask requests pandas flask-cors openpyxl
+
+# Run the Python Script:
+python scraper.py
+
+# Optional – Create a PowerShell Script (RunScraper.ps1):
+cd C:\Aliscraper\backend
+.\venv\Scripts\Activate.ps1
+python scraper.py
+
+# Schedule Task in Windows Task Scheduler:
+# Program: powershell.exe
+# Arguments: -ExecutionPolicy Bypass -File "C:\Aliscraper\backend\RunScraper.ps1"AWS Law Firm Cloud Setup with OpenVPN
+Step-by-Step Guide: Building a Chatbot with FastAPI (Backend) & React (Frontend using Vite)
+This guide will walk you through the full process of setting up the chatbot, from backend (FastAPI) to frontend (React with Vite). It includes all PowerShell (PS) / Command Prompt (CMD) commands needed to run, debug, and update your chatbot in the future.
+
+1️⃣ Backend Setup - FastAPI
+We'll start by setting up the chatbot API with FastAPI.
+
+1.1 Install Python & Create Virtual Environment
+powershell
+Copy
+Edit
+# Move to the backend folder
+cd C:\chatbox\chatbox-backend\chat-engine
+
+# Create a virtual environment
+python -m venv env
+
+# Activate the virtual environment (PowerShell)
+env\Scripts\Activate.ps1
+
+# (If using CMD)
+env\Scripts\activate.bat
+1.2 Install Dependencies
+powershell
+Copy
+Edit
+pip install fastapi uvicorn openai python-dotenv
+1.3 Create app.py
+Create a file named app.py in chatbox-backend/chat-engine/ and add the following code:
+
+python
+Copy
+Edit
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+import openai
+import os
+from dotenv import load_dotenv
+
+# Load API Key
+load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+app = FastAPI()
+
+class ChatRequest(BaseModel):
+    user_id: str
+    message: str
+
+@app.post("/chat")
+async def chat(request: ChatRequest):
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": request.message}]
+        )
+        return {"reply": response["choices"][0]["message"]["content"]}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/")
+async def root():
+    return {"message": "Chatbot is running!"}
+1.4 Create .env file
+Create a .env file in the same folder as app.py and add:
+
+ini
+Copy
+Edit
+OPENAI_API_KEY=your_openai_api_key
+1.5 Run the Backend
+powershell
+Copy
+Edit
+uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+✔ Backend is now running on: http://127.0.0.1:8000/
+
+1.6 Test the API
+Run this in CMD or PowerShell:
+
+powershell
+Copy
+Edit
+curl -X POST "http://127.0.0.1:8000/chat" -H "Content-Type: application/json" -d "{\"user_id\": \"123\", \"message\": \"Who is Yousef?\"}"
+If successful, you’ll receive a chatbot response. ✅
+
+2️⃣ Frontend Setup - React (Vite)
+We'll now set up the chatbot's UI using React with Vite.
+
+2.1 Install Node.js & Create Vite App
+powershell
+Copy
+Edit
+# Move to frontend folder
+cd C:\chatbox\chatbox-frontend
+
+# Create Vite project
+npx create-vite@latest chatbox-frontend --template react
+
+# Move into the project folder
+cd chatbox-frontend
+
+# Install dependencies
+npm install
+npm install axios
+2.2 Create ChatBox.jsx
+Inside src/components/ChatBox.jsx, add:
+
+javascript
+Copy
+Edit
+"use client";
+
+import { useState } from "react";
+
+export default function ChatBox() {
+  const [messages, setMessages] = useState([
+    { role: "bot", content: "Hello! How can I help you today?" },
+  ]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const sendMessage = async () => {
+    if (!input.trim()) return;
+
+    const newMessages = [...messages, { role: "user", content: input }];
+    setMessages(newMessages);
+    setInput("");
+    setLoading(true);
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: "123", message: input }),
+      });
+
+      const data = await response.json();
+      setMessages([...newMessages, { role: "bot", content: data.reply }]);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div style={{
+      width: "80%",
+      maxWidth: "700px",
+      height: "80vh",
+      margin: "auto",
+      marginTop: "5vh",
+      padding: "20px",
+      borderRadius: "15px",
+      background: "#ffffff",
+      boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.2)",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+      border: "1px solid #ddd"
+    }}>
+      <h2 style={{ textAlign: "center", fontSize: "24px", fontWeight: "bold", marginBottom: "10px" }}>
+        💬 Chat with AI
+      </h2>
+      <div style={{
+        flex: 1,
+        overflowY: "auto",
+        padding: "15px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "12px",
+        background: "#f9f9f9",
+        borderRadius: "10px"
+      }}>
+        {messages.map((msg, index) => (
+          <div key={index} style={{
+            maxWidth: "75%",
+            padding: "12px 16px",
+            borderRadius: "12px",
+            background: msg.role === "user" ? "#007bff" : "#e9ecef",
+            color: msg.role === "user" ? "#fff" : "#333",
+            alignSelf: msg.role === "user" ? "flex-end" : "flex-start",
+            fontSize: "16px",
+            boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)"
+          }}>
+            {msg.content}
+          </div>
+        ))}
+        {loading && <p style={{ textAlign: "center", fontSize: "14px", color: "#888" }}>Typing...</p>}
+      </div>
+      <div style={{ display: "flex", padding: "15px", borderTop: "1px solid #ddd", background: "#fff" }}>
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Type your message..."
+          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+          style={{
+            flex: 1,
+            padding: "12px",
+            border: "1px solid #ccc",
+            borderRadius: "5px",
+            outline: "none",
+            fontSize: "16px"
+          }}
+        />
+        <button
+          onClick={sendMessage}
+          style={{
+            background: "#007bff",
+            color: "white",
+            border: "none",
+            padding: "12px 18px",
+            borderRadius: "5px",
+            cursor: "pointer",
+            marginLeft: "10px"
+          }}>
+          Send
+        </button>
+      </div>
+    </div>
+  );
+}
+2.3 Import ChatBox.jsx in App.jsx
+javascript
+Copy
+Edit
+import ChatBox from "./components/ChatBox";
+
+function App() {
+  return <ChatBox />;
+}
+
+export default App;
+2.4 Run the Frontend
+powershell
+Copy
+Edit
+npm run dev
+✔ Frontend running on: http://localhost:5173/
+
+💡 Summary of Commands
+Task	Command
+Activate virtual environment	env\Scripts\Activate.ps1
+Install backend dependencies	pip install fastapi uvicorn openai python-dotenv
+Run backend server	uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+Test API	curl -X POST "http://127.0.0.1:8000/chat" -H "Content-Type: application/json" -d "{\"user_id\": \"123\", \"message\": \"Who is Yousef?\"}"
+Install frontend dependencies	npm install
+Run frontend	npm run devThis project provides an AWS CloudFormation template to set up a Virtual Private Cloud (VPC) integrated with an OpenVPN server. Designed for small law firms, this solution ensures secure remote access, scalable infrastructure, and reliable network management. The setup is customizable for other small businesses requiring similar cloud-based VPN solutions. 
+
+Features
+Automated AWS VPC Setup:
+
+Public and private subnets.
+NAT Gateway for secure internet access from private subnets.
+Internet Gateway for public access.
+OpenVPN Integration:
+
+OpenVPN server deployed on an EC2 instance.
+Secure remote access for employees using OpenVPN clients.
+Scalability and Security:
+
+Designed to support multiple users with easy client configuration management.
+AWS Security Groups for controlled access to resources.
+Customizability:
+
+Supports modifications for IP ranges, instance types, and number of users.
+Architecture
+Architecture Diagram
+
+Components
+VPC: Contains public and private subnets for secure resource segmentation.
+Subnets:
+Public Subnet: Hosts the OpenVPN server and other public-facing resources.
+Private Subnet: For internal services and data storage.
+OpenVPN Server:
+Hosted on a t2.micro EC2 instance.
+Configured to provide secure VPN access.
+Security Groups:
+Allows SSH and OpenVPN connections.
+Outputs:
+VPC ID, Subnet IDs, and OpenVPN server public IP address.
+Deployment Instructions
+Prerequisites
+AWS Account: Ensure you have an active AWS account.
+Key Pair: Create an AWS EC2 key pair (e.g., 2xKeyPair) for SSH access.
+CloudFormation Console: Familiarity with AWS CloudFormation.
+Steps
+Clone this Repository:
+
+git clone https://github.com/your-username/aws-law-firm-project.git
+cd aws-law-firm-project
+Launch the Stack:
+
+Navigate to the AWS CloudFormation console.
+Upload the lawfirm-vpc.yaml file.
+Provide parameters such as VpcName, CidrBlock, and InstanceKeyName.
+Access the OpenVPN Server:
+
+SSH into the server using the key pair.
+Use the OpenVPN client configuration files (client1.ovpn, client2.ovpn, etc.) to connect.
+Connect Clients:
+
+Install the OpenVPN client on user devices.
+Import the .ovpn configuration file and connect.
+Managing Users
+Adding New Users
+Run the following commands on the OpenVPN server to create additional client configuration files:
+
+cd /usr/share/easy-rsa
+sudo ./easyrsa build-client-full client3 nopass
+sudo cp /etc/openvpn/client1.ovpn /etc/openvpn/client3.ovpn
+sudo nano /etc/openvpn/client3.ovpn  # Update certificate and key paths
+Distribute the updated .ovpn file along with the necessary certificates to the user.
+
+Revoking Users
+To revoke access for a user:
+
+cd /usr/share/easy-rsa
+sudo ./easyrsa revoke client3
+sudo ./easyrsa gen-crl
+sudo systemctl restart openvpn@server
+Costs and Optimization
+AWS Free Tier:
+750 hours of t2.micro or t3.micro instances per month.
+1GB outbound traffic per month.
+Tips for Cost Efficiency:
+Monitor traffic using AWS CloudWatch.
+Automate client management to save administrative overhead.
+Resources
+OpenVPN Documentation
+AWS CloudFormation Guide
+Ubuntu Documentation
+
+General Background
+Q: Can you provide a brief summary of your professional background?
+A: I am an AWS Solutions Architect with expertise in designing and deploying scalable cloud infrastructures. I specialize in AWS services, automation, and cost optimization. Additionally, I have a strong background in web development with React, Next.js, and Python.
+
+Q: What industries have you worked in?
+A: I have experience working in IT services, cloud computing, digital media, e-commerce, and law firm infrastructure solutions. My expertise spans technical support, web development, and cloud architecture.
+
+AWS & Cloud Computing
+Q: What are your key skills in AWS?
+A: I have expertise in AWS services such as EC2, VPC, Lambda, API Gateway, CloudFormation, and Amplify. I also specialize in serverless architecture, security best practices, and cost optimization.
+
+Q: Have you worked with Infrastructure as Code (IaC)?
+A: Yes, I have implemented infrastructure automation using AWS CloudFormation and Terraform (basic level) to deploy and manage cloud resources efficiently.
+
+Q: How do you optimize AWS costs for businesses?
+A: I optimize costs by implementing reserved instances, right-sizing EC2 instances, using AWS Lambda for serverless workloads, and setting up S3 lifecycle policies to manage storage efficiently.
+
+Q: Can you describe a cloud project you led?
+A: I designed and deployed a scalable AWS cloud infrastructure for a digital subscription platform, utilizing AWS Amplify, Lambda, API Gateway, and CloudFront to improve performance and cost efficiency.
+
+DevOps & Automation
+Q: Do you have experience with CI/CD pipelines?
+A: Yes, I have set up CI/CD pipelines using AWS CodePipeline, GitHub Actions, and AWS CLI to automate application deployment and infrastructure provisioning.
+
+Q: What scripting languages do you use for automation?
+A: I use Python, PowerShell, and AWS CLI to automate infrastructure deployments, SEO audits, and cloud monitoring tasks.
+
+Web Development & SEO
+Q: What frontend frameworks are you proficient in?
+A: I specialize in React.js and Next.js, particularly for server-side rendering (SSR) and static site generation (SSG) to enhance performance and SEO.
+
+Q: How have you used automation in SEO?
+A: I developed an SEO automation tool using Python, Flask, and PowerShell to audit and optimize website rankings, track backlinks, and generate automated reports.
+
+Networking & Security
+Q: What security best practices do you follow in AWS?
+A: I implement IAM roles with least privilege, enable multi-factor authentication (MFA), configure VPC security groups, and use encryption for data at rest and in transit.
+
+Q: Are you experienced with VPN and networking configurations?
+A: Yes, I have configured AWS VPN solutions, set up secure VPC architectures, and managed DNS settings for cloud-based applications.
+
+Certifications & Education
+Q: Are you working on any certifications?
+A: I am currently pursuing the Cisco CCNA certification to expand my networking expertise alongside my AWS cloud knowledge.
+
+Q: What formal education do you have?
+A: I hold a DEC in Network Administration from Herzing College and a Bachelor’s degree in English Literature from Guilan University.
+
+Soft Skills & Work Approach
+Q: How do you handle troubleshooting and problem-solving?
+A: I take a systematic approach to troubleshooting, analyzing logs, identifying root causes, and implementing efficient solutions. My experience in IT support has honed my ability to resolve technical issues quickly.
+
+Q: How do you manage multiple projects simultaneously?
+A: I prioritize tasks based on deadlines and impact, use project management tools like Trello and Jira, and automate repetitive processes to increase efficiency.
+
+Q: Do you work well in teams?
+A: Yes, I have worked collaboratively with cross-functional teams, including developers, designers, and business stakeholders, to deliver cloud and web solutions effectively.
+
+Future Goals
+Q: Where do you see yourself in five years?
+A: I aim to further my expertise in cloud security, obtain AWS Professional certifications, and contribute to enterprise-scale cloud transformation projects.
+
+Q: What technologies are you currently learning?
+A: I am expanding my knowledge in Kubernetes for container orchestration and improving my skills in AI-powered automation using AWS AI/ML services.
+
+These Q&A pairs will make your chatbot more useful for recruiters and help showcase your skills effectively. Let me know if you want additional questions! 🚀
+
+You said:
+give me more personal q and answer?
+ChatGPT said:
+Here are some personal Q&A pairs that can make your chatbot more engaging and help recruiters learn more about you as a person:
+
+Personality & Work Style
+Q: How would you describe yourself in three words?
+A: Innovative, problem-solver, and adaptable.
+
+Q: What motivates you in your work?
+A: I love solving complex technical challenges, automating processes to improve efficiency, and continuously learning new technologies.
+
+Q: Are you more of a team player or an independent worker?
+A: I thrive in both environments. I enjoy collaborating with teams to build and deploy solutions, but I’m also highly self-motivated and can work independently on projects.
+
+Q: How do you handle stressful situations?
+A: I stay calm by breaking problems into smaller, manageable tasks. I also use automation and documentation to reduce stress caused by repetitive or last-minute issues.
+
+Q: What is your leadership style?
+A: I lead by example, focusing on mentorship, collaboration, and problem-solving. I believe in empowering my team by sharing knowledge and encouraging continuous learning.
+
+Hobbies & Interests
+Q: What do you like to do outside of work?
+A: I enjoy coding side projects, learning about AI and automation, and exploring new cloud technologies. Outside of tech, I like photography, hiking, and playing chess.
+
+Q: Do you have a favorite book or podcast?
+A: I’m a fan of “The Phoenix Project” for DevOps insights and Lex Fridman’s podcast, where he interviews experts in AI and technology.
+
+Q: What’s a hobby you’ve picked up recently?
+A: I’ve been experimenting with AI-powered voice synthesis and automation in my free time, working on projects that combine cloud computing and AI.
+
+Q: If you weren’t in tech, what career would you choose?
+A: Probably something related to business strategy or teaching, as I enjoy explaining technical concepts and helping others grow in their careers.
+
+Personal Values & Growth
+Q: What’s the best piece of advice you’ve received?
+A: “Stay curious and never stop learning.” Technology evolves fast, and being adaptable is key to success.
+
+Q: How do you stay up to date with the latest tech trends?
+A: I follow AWS blogs, attend webinars, and take online courses. I also work on side projects to apply what I learn.
+
+Q: What’s a challenge you overcame in your career?
+A: Transitioning from IT support to cloud architecture was a big shift. I self-taught AWS through hands-on projects, online courses, and certifications while working full-time.
+
+Q: What’s something unique about you that’s not on your resume?
+A: I enjoy automating random everyday tasks, like creating scripts to organize my emails or using AI to generate daily summaries of tech news.
+
+Fun & Random Questions
+Q: If you could have dinner with any tech leader, who would it be?
+A: Elon Musk or Jeff Bezos—both have shaped how we think about innovation and scaling technology.
+
+Q: If you could master a new skill instantly, what would it be?
+A: AI development or blockchain technology—I think they will play a massive role in the future of cloud computing.
+
+Q: What’s your dream travel destination?
+A: Japan! I love the mix of technology, tradition, and innovation in their culture.
+
+Q: Are you a morning person or a night owl?
+A: Definitely a night owl—I find I’m most productive late at night when there are fewer distractions.
+
+Q: If you had unlimited resources, what project would you build?
+A: A fully AI-powered cloud automation tool that could manage deployments, optimize infrastructure, and monitor security in real time.
