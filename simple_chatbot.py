@@ -24,10 +24,16 @@ class ChatRequest(BaseModel):
 # Function to load the correct knowledge base for each site
 def load_knowledge(site):
     knowledge_file = f"knowledge_{site}.txt"
+    print(f"📂 Attempting to load: {knowledge_file}")  # ✅ Debugging
+
     if os.path.exists(knowledge_file):
         with open(knowledge_file, "r", encoding="utf-8") as f:
-            return f.read()
-    return None  # Return None if no specific knowledge is found
+            content = f.read()
+            print(f"✅ Loaded knowledge ({len(content)} characters)")
+            return content
+    print("❌ No knowledge file found!")
+    return None
+
 
 # Function to get chatbot responses
 def get_openai_response(system_prompt, user_message):
