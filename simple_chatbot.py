@@ -19,36 +19,43 @@ app = FastAPI()
 
 class ChatRequest(BaseModel):
     message: str
-    site: str  # Explicitly send site name from the frontend
+    site: str  # The website making the request
 
-# Function to load knowledge dynamically for each website
+# Function to load knowledge dynamically per website
 def load_knowledge(site):
-    knowledge_file = f"knowledge_{site}.txt"  # Example: "knowledge_grandpaoliver.txt"
-
+    knowledge_file = f"knowledge_{site}.txt"  # Example: "knowledge_kk.txt"
+    
     if os.path.exists(knowledge_file):
         with open(knowledge_file, "r", encoding="utf-8") as f:
             return f.read()
-    else:
-        return None  # If no knowledge file exists, return None
+    return None  # Return None if no file exists
 
 # ✅ **Fixed Chat Logic**
 @app.post("/chat")
 def chat(request: ChatRequest):
-    site = request.site.strip()
+    site = request.site.strip().lower()  # Normalize site name
     user_message = request.message.strip()
 
     if not user_message:
         raise HTTPException(status_code=400, detail="Message cannot be empty.")
 
-    # Load knowledge based on the site making the request
+    # Load the site-specific knowledge
     custom_knowledge = load_knowledge(site)
 
-    # **Use the chatbot logic exactly as you wanted**
-    system_prompt = f"""
-    You are a helpful AI assistant. Use the following knowledge to answer the user's question:
+    # ✅ **Ensure chatbot prioritizes site knowledge first**
+    if custom_knowledge:
+        system_prompt = f"""
+        You are a chatbot for '{site}'. Answer ONLY using the following information:
 
-    {custom_knowledge if custom_knowledge else "No specific knowledge available. Provide a general AI response."}
-    """
+        {custom_knowledge}
+
+        If you do not find an answer in the provided knowledge, politely inform the user that you can only answer based on the given knowledge.
+        """
+    else:
+        system_prompt = f"""
+        You are a general AI assistant for '{site}'.
+        No specific knowledge is available, so provide a helpful general response.
+        """
 
     try:
         response = client.chat.completions.create(
@@ -118,7 +125,7 @@ def serve_html():
                 inputField.value = "";
                 chatBox.scrollTop = chatBox.scrollHeight;
 
-                const site = window.location.hostname;
+                const site = window.location.hostname;  // Get the website name
 
                 fetch("https://chatbot-qqjj.onrender.com/chat", {  // Fixed Endpoint
                     method: "POST",
