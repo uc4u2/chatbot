@@ -86,6 +86,88 @@ def chat(request: ChatRequest):
     except openai.OpenAIError as e:
         return JSONResponse(status_code=500, content={"reply": f"Error: {str(e)}"})
 
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import HTMLResponse, JSONResponse
+from pydantic import BaseModel
+import openai
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+if not OPENAI_API_KEY:
+    raise ValueError("Missing OpenAI API key. Set OPENAI_API_KEY in your .env file.")
+
+# Initialize OpenAI Client
+client = openai.OpenAI(api_key=OPENAI_API_KEY)
+
+app = FastAPI()
+
+class ChatRequest(BaseModel):
+    message: str
+    site: str  # The frontend must explicitly send the site name
+
+# ✅ **Load knowledge dynamically for each website**
+def load_knowledge(site):
+    """Loads knowledge file based on the website's hostname"""
+    knowledge_file = f"knowledge_{site}.txt"
+
+    if os.path.exists(knowledge_file):
+        with open(knowledge_file, "r", encoding="utf-8") as f:
+            return f.read()
+    else:
+        return None  # Return None if no knowledge exists
+
+# ✅ **Chat Logic: Ensuring correct knowledge is used**
+@app.post("/chat")
+def chat(request: ChatRequest):
+    site = request.site.strip().lower()  # Normalize site name
+    user_message = request.message.strip()
+
+    if not user_message:
+        raise HTTPException(status_code=400, detail="Message cannot be empty.")
+
+    # **Load correct knowledge base**
+    custom_knowledge = load_knowledge(site)
+
+    if custom_knowledge:
+        system_prompt = f"""
+        You are a chatbot dedicated to answering questions for the website '{site}'.
+        Your primary role is to assist users based on the knowledge base provided.
+
+        KNOWLEDGE BASE:
+        {custom_knowledge}
+
+        INSTRUCTIONS:
+        - ONLY use the knowledge base for this site.
+        - If the user's question can be answered logically, provide the best possible answer.
+        - If you don't have an answer, politely say so, but NEVER reference unrelated websites.
+        - Keep responses **clear, engaging, and relevant**.
+        """
+    else:
+        system_prompt = f"""
+        You are an AI chatbot for '{site}'.
+        No specific knowledge is available for this site, so provide **accurate and general AI responses**.
+        """
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_message}
+            ],
+            max_tokens=150
+        )
+
+        bot_reply = response.choices[0].message.content.strip()
+        return {"reply": bot_reply}
+
+    except openai.OpenAIError as e:
+        return JSONResponse(status_code=500, content={"reply": f"Error: {str(e)}"})
+
 # ✅ **Frontend Chatbot UI**
 @app.get("/", response_class=HTMLResponse)
 def serve_html():
