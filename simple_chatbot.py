@@ -1,5 +1,6 @@
-from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import openai
 import os
@@ -17,21 +18,28 @@ client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
 app = FastAPI()
 
+# ✅ Add CORS Middleware to Allow Requests from Amplify
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Change this to your website if needed: ["https://kk.d3azems0k10jm0.amplifyapp.com"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 class ChatRequest(BaseModel):
     message: str
-    site: str  # Explicitly send site name from the frontend
+    site: str  # Explicitly send site name from frontend
 
-# Function to load knowledge dynamically for each website
 def load_knowledge(site):
     knowledge_file = f"knowledge_{site}.txt"
-
+    
     if os.path.exists(knowledge_file):
         with open(knowledge_file, "r", encoding="utf-8") as f:
             return f.read()
     else:
-        return None  # Return None if no knowledge exists
+        return None  
 
-# ✅ **Chat Logic with Smart Inference**
 @app.post("/chat")
 def chat(request: ChatRequest):
     site = request.site.strip()
@@ -40,34 +48,23 @@ def chat(request: ChatRequest):
     if not user_message:
         raise HTTPException(status_code=400, detail="Message cannot be empty.")
 
-    # Load knowledge based on the site making the request
     custom_knowledge = load_knowledge(site)
 
     if custom_knowledge:
         system_prompt = f"""
-        You are a highly intelligent and logical chatbot for the website '{site}'.
-        Your primary role is to assist users based on the knowledge base provided below.
+        You are a highly intelligent chatbot for the website '{site}'.
+        Use the following knowledge base to assist users:
 
         KNOWLEDGE BASE:
         {custom_knowledge}
 
-        INSTRUCTIONS:
-        - If the user's question can be answered **using logic and inference**, provide the best possible answer.
-        - If you have relevant information **but it requires reasoning**, **attempt to deduce the answer**.
-        - If the knowledge base **does not** cover the topic, politely inform the user, but try to provide **a general educated guess** if applicable.
-        - Keep responses **engaging, helpful, and conversational**.
-        - **Do not mix knowledge between websites.** If the user asks about a topic outside this site's scope, **do not reference other sites**.
-
-        EXAMPLES OF SMART RESPONSES:
-        ❌ Bad: "I'm sorry, I can't calculate."
-        ✅ Good: "Based on the provided information, Yousef started university at 18 in 2000, meaning he would be around 42-43 years old today."
-
-        Let's begin! Answer the user's queries effectively and intelligently.
+        If a question is not covered in the knowledge base, try to provide a general educated guess.
+        Do **not** mix knowledge between different websites.
         """
     else:
         system_prompt = f"""
-        You are an AI chatbot for '{site}'.
-        No specific knowledge is available for this site, so provide **accurate and general AI responses**.
+        You are a general AI assistant for '{site}'.
+        No specific knowledge is available for this site, so provide general AI responses.
         """
 
     try:
@@ -86,87 +83,6 @@ def chat(request: ChatRequest):
     except openai.OpenAIError as e:
         return JSONResponse(status_code=500, content={"reply": f"Error: {str(e)}"})
 
-from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import HTMLResponse, JSONResponse
-from pydantic import BaseModel
-import openai
-import os
-from dotenv import load_dotenv
-
-# Load environment variables
-load_dotenv()
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
-if not OPENAI_API_KEY:
-    raise ValueError("Missing OpenAI API key. Set OPENAI_API_KEY in your .env file.")
-
-# Initialize OpenAI Client
-client = openai.OpenAI(api_key=OPENAI_API_KEY)
-
-app = FastAPI()
-
-class ChatRequest(BaseModel):
-    message: str
-    site: str  # The frontend must explicitly send the site name
-
-# ✅ **Load knowledge dynamically for each website**
-def load_knowledge(site):
-    """Loads knowledge file based on the website's hostname"""
-    knowledge_file = f"knowledge_{site}.txt"
-
-    if os.path.exists(knowledge_file):
-        with open(knowledge_file, "r", encoding="utf-8") as f:
-            return f.read()
-    else:
-        return None  # Return None if no knowledge exists
-
-# ✅ **Chat Logic: Ensuring correct knowledge is used**
-@app.post("/chat")
-def chat(request: ChatRequest):
-    site = request.site.strip().lower()  # Normalize site name
-    user_message = request.message.strip()
-
-    if not user_message:
-        raise HTTPException(status_code=400, detail="Message cannot be empty.")
-
-    # **Load correct knowledge base**
-    custom_knowledge = load_knowledge(site)
-
-    if custom_knowledge:
-        system_prompt = f"""
-        You are a chatbot dedicated to answering questions for the website '{site}'.
-        Your primary role is to assist users based on the knowledge base provided.
-
-        KNOWLEDGE BASE:
-        {custom_knowledge}
-
-        INSTRUCTIONS:
-        - ONLY use the knowledge base for this site.
-        - If the user's question can be answered logically, provide the best possible answer.
-        - If you don't have an answer, politely say so, but NEVER reference unrelated websites.
-        - Keep responses **clear, engaging, and relevant**.
-        """
-    else:
-        system_prompt = f"""
-        You are an AI chatbot for '{site}'.
-        No specific knowledge is available for this site, so provide **accurate and general AI responses**.
-        """
-
-    try:
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_message}
-            ],
-            max_tokens=150
-        )
-
-        bot_reply = response.choices[0].message.content.strip()
-        return {"reply": bot_reply}
-
-    except openai.OpenAIError as e:
-        return JSONResponse(status_code=500, content={"reply": f"Error: {str(e)}"})
 
 # ✅ **Frontend Chatbot UI**
 @app.get("/", response_class=HTMLResponse)
