@@ -30,7 +30,7 @@ def load_knowledge(site):
     else:
         return f"No custom knowledge available for {site}. Ask me general questions!"
 
-# Function to Serve Chatbot UI (HTML)
+# Serve HTML Chat Page
 def get_html_page():
     return """<!DOCTYPE html>
 <html lang="en">
@@ -39,55 +39,13 @@ def get_html_page():
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-            margin: 0;
-        }
-        .chat-container {
-            width: 90%;
-            max-width: 400px;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        textarea {
-            width: 100%;
-            height: 250px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            resize: none;
-            overflow-y: auto;
-        }
-        input {
-            width: 75%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-        button {
-            width: 20%;
-            padding: 10px;
-            border: none;
-            background-color: #28a745;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #218838;
-        }
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f4f4; margin: 0; }
+        .chat-container { width: 90%; max-width: 400px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); }
+        h2 { text-align: center; margin-bottom: 10px; }
+        textarea { width: 100%; height: 250px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; resize: none; overflow-y: auto; }
+        input { width: 75%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-top: 10px; }
+        button { width: 20%; padding: 10px; border: none; background-color: #28a745; color: white; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #218838; }
     </style>
 </head>
 <body>
@@ -122,9 +80,9 @@ def get_html_page():
                 inputField.value = "";
                 chatBox.scrollTop = chatBox.scrollHeight;
 
-                const site = window.location.hostname;  // Detect the domain dynamically
+                const site = window.location.hostname;
 
-                fetch(`/chat/${site}`, {
+                fetch(`https://chatbot-qqjj.onrender.com/chat/${site}`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ message: message })
