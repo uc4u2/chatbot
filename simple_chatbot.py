@@ -30,7 +30,7 @@ def load_knowledge(site):
     else:
         return f"No custom knowledge available for {site}. Ask me general questions!"
 
-# Function to Serve HTML (Chatbot UI)
+# Function to Serve Chatbot UI (HTML)
 def get_html_page():
     return """<!DOCTYPE html>
 <html lang="en">
@@ -122,7 +122,7 @@ def get_html_page():
                 inputField.value = "";
                 chatBox.scrollTop = chatBox.scrollHeight;
 
-                const site = window.location.hostname;  // Get the domain dynamically
+                const site = window.location.hostname;  // Detect the domain dynamically
 
                 fetch(`/chat/${site}`, {
                     method: "POST",
