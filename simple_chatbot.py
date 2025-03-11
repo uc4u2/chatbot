@@ -1,8 +1,9 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel
 import openai
 import os
+import requests
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -19,27 +20,32 @@ app = FastAPI()
 
 class ChatRequest(BaseModel):
     message: str
-    site: str  # Explicitly send site name from the frontend
+    site: str  # Get website name dynamically
 
-# Function to load knowledge dynamically for each website
-def load_knowledge(site):
-    knowledge_file = f"knowledge_{site}.txt"
-    if os.path.exists(knowledge_file):
-        with open(knowledge_file, "r", encoding="utf-8") as f:
-            return f.read().strip()  # Ensure knowledge is not empty or has formatting issues
-    return None  # If no knowledge file exists, return None
+# ✅ Function to load knowledge from S3
+def load_knowledge_from_s3(site):
+    s3_url = f"https://s3.us-west-1.amazonaws.com/chatbot-knowledge-bucket/knowledge_{site}.txt"
+    
+    try:
+        response = requests.get(s3_url)
+        if response.status_code == 200:
+            return response.text  # Return knowledge text
+        else:
+            return None  # If file not found, return None
+    except Exception as e:
+        return None  # Handle any S3 request errors
 
-# ✅ **Fixed Chat Logic**
+# ✅ Chatbot API Endpoint
 @app.post("/chat")
 def chat(request: ChatRequest):
-    site = request.site.strip().lower()
+    site = request.site.strip()
     user_message = request.message.strip()
 
     if not user_message:
         raise HTTPException(status_code=400, detail="Message cannot be empty.")
 
-    # Load knowledge based on the site making the request
-    custom_knowledge = load_knowledge(site)
+    # Load knowledge dynamically
+    custom_knowledge = load_knowledge_from_s3(site)
 
     if custom_knowledge:
         system_prompt = f"""
@@ -50,16 +56,18 @@ def chat(request: ChatRequest):
         {custom_knowledge}
 
         INSTRUCTIONS:
-        - Answer questions using **only the provided knowledge**.
-        - If the knowledge base **does not** contain relevant information, politely inform the user.
-        - **Do not mix knowledge between websites**. If the user asks about an unrelated topic, do not reference other sites.
-        - Maintain a friendly and engaging tone.
+        - If the user's question can be answered **using logic and inference**, provide the best possible answer.
+        - If you have relevant information **but it requires reasoning**, **attempt to deduce the answer**.
+        - If the knowledge base **does not** cover the topic, politely inform the user, but try to provide **a general educated guess** if applicable.
+        - Keep responses **engaging, helpful, and conversational**.
+        - **Do not mix knowledge between websites.** If the user asks about a topic outside this site's scope, **do not reference other sites.**
+
+        Let's begin! Answer the user's queries effectively and intelligently.
         """
     else:
         system_prompt = f"""
         You are a general AI assistant for '{site}'.
         No specific knowledge is available for this site, so provide general AI responses.
-        If a user asks about a specific topic that is missing, politely inform them.
         """
 
     try:
@@ -79,7 +87,7 @@ def chat(request: ChatRequest):
         return JSONResponse(status_code=500, content={"reply": f"Error: {str(e)}"})
 
 
-# ✅ **Frontend Chatbot UI**
+# ✅ Chatbot UI Endpoint
 @app.get("/", response_class=HTMLResponse)
 def serve_html():
     return """<!DOCTYPE html>
@@ -135,7 +143,7 @@ def serve_html():
                 fetch("https://chatbot-qqjj.onrender.com/chat", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ message: message, site: site })  
+                    body: JSON.stringify({ message: message, site: site })
                 })
                 .then(response => response.json())
                 .then(data => {
