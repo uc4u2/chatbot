@@ -23,7 +23,7 @@ class ChatRequest(BaseModel):
 
 # Function to load knowledge dynamically for each website
 def load_knowledge(site):
-    knowledge_file = f"knowledge_{site}.txt"
+    knowledge_file = f"knowledge_{site}.txt"  # Example: "knowledge_grandpaoliver.txt"
 
     if os.path.exists(knowledge_file):
         with open(knowledge_file, "r", encoding="utf-8") as f:
@@ -43,20 +43,12 @@ def chat(request: ChatRequest):
     # Load knowledge based on the site making the request
     custom_knowledge = load_knowledge(site)
 
-    if custom_knowledge:
-        system_prompt = f"""
-        You are a chatbot for '{site}'.
-        Your job is to assist users based on the following knowledge:
+    # **Use the chatbot logic exactly as you wanted**
+    system_prompt = f"""
+    You are a helpful AI assistant. Use the following knowledge to answer the user's question:
 
-        {custom_knowledge}
-
-        If the knowledge base does not cover the topic, let the user know and provide a general response.
-        """
-    else:
-        system_prompt = f"""
-        You are a general AI assistant for '{site}'.
-        No specific knowledge is available for this site, so provide general AI responses.
-        """
+    {custom_knowledge if custom_knowledge else "No specific knowledge available. Provide a general AI response."}
+    """
 
     try:
         response = client.chat.completions.create(
