@@ -29,9 +29,9 @@ def load_knowledge(site):
         with open(knowledge_file, "r", encoding="utf-8") as f:
             return f.read()
     else:
-        return "No specific knowledge available. I will answer with general information."
+        return None  # Return None if no knowledge exists
 
-# ✅ **Chat Logic**
+# ✅ **Chat Logic with Smart Inference**
 @app.post("/chat")
 def chat(request: ChatRequest):
     site = request.site.strip()
@@ -43,14 +43,32 @@ def chat(request: ChatRequest):
     # Load knowledge based on the site making the request
     custom_knowledge = load_knowledge(site)
 
-    system_prompt = f"""
-    You are a chatbot for '{site}'.
-    Your job is to assist users based on the following knowledge:
+    if custom_knowledge:
+        system_prompt = f"""
+        You are a highly intelligent and logical chatbot for the website '{site}'.
+        Your primary role is to assist users based on the knowledge base provided below.
 
-    {custom_knowledge}
+        KNOWLEDGE BASE:
+        {custom_knowledge}
 
-    If the knowledge base does not cover the topic, provide a general response.
-    """
+        INSTRUCTIONS:
+        - If the user's question can be answered **using logic and inference**, provide the best possible answer.
+        - If you have relevant information **but it requires reasoning**, **attempt to deduce the answer**.
+        - If the knowledge base **does not** cover the topic, politely inform the user, but try to provide **a general educated guess** if applicable.
+        - Keep responses **engaging, helpful, and conversational**.
+        - **Do not mix knowledge between websites.** If the user asks about a topic outside this site's scope, **do not reference other sites**.
+
+        EXAMPLES OF SMART RESPONSES:
+        ❌ Bad: "I'm sorry, I can't calculate."
+        ✅ Good: "Based on the provided information, Yousef started university at 18 in 2000, meaning he would be around 42-43 years old today."
+
+        Let's begin! Answer the user's queries effectively and intelligently.
+        """
+    else:
+        system_prompt = f"""
+        You are an AI chatbot for '{site}'.
+        No specific knowledge is available for this site, so provide **accurate and general AI responses**.
+        """
 
     try:
         response = client.chat.completions.create(
