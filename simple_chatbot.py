@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel
 import openai
@@ -12,62 +12,68 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
     raise ValueError("Missing OpenAI API key. Set OPENAI_API_KEY in your .env file.")
 
-# Initialize OpenAI Client
+# Initialize OpenAI Client once for better performance
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
 app = FastAPI()
 
 class ChatRequest(BaseModel):
     message: str
-    site: str  # The website making the request
+    site: str  # Explicitly send site name from the frontend
 
-# Function to load knowledge dynamically per website
+# Function to load the correct knowledge base for each site
 def load_knowledge(site):
-    knowledge_file = f"knowledge_{site}.txt"  # Example: "knowledge_kk.txt"
-    
+    knowledge_file = f"knowledge_{site}.txt"
     if os.path.exists(knowledge_file):
         with open(knowledge_file, "r", encoding="utf-8") as f:
             return f.read()
-    return None  # Return None if no file exists
+    return None  # Return None if no specific knowledge is found
 
-# ✅ **Fixed Chat Logic**
+# Function to get chatbot responses
+def get_openai_response(system_prompt, user_message):
+    """
+    Calls OpenAI API to generate a response.
+    """
+    return client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_message}
+        ],
+        max_tokens=150
+    ).choices[0].message.content.strip()
+
+# ✅ **Chat Endpoint (Faster & Smarter Logic)**
 @app.post("/chat")
 def chat(request: ChatRequest):
-    site = request.site.strip().lower()  # Normalize site name
+    site = request.site.strip()
     user_message = request.message.strip()
 
     if not user_message:
         raise HTTPException(status_code=400, detail="Message cannot be empty.")
 
-    # Load the site-specific knowledge
+    # Load site-specific knowledge
     custom_knowledge = load_knowledge(site)
 
-    # ✅ **Ensure chatbot prioritizes site knowledge first**
+    # Ensure the chatbot only uses relevant knowledge
     if custom_knowledge:
         system_prompt = f"""
-        You are a chatbot for '{site}'. Answer ONLY using the following information:
+        You are a chatbot for '{site}'.
+        Your job is to answer questions using ONLY the following knowledge base:
 
         {custom_knowledge}
 
-        If you do not find an answer in the provided knowledge, politely inform the user that you can only answer based on the given knowledge.
+        If the knowledge base does not contain the answer, politely let the user know.
+        DO NOT provide information that is not in the knowledge base.
         """
     else:
         system_prompt = f"""
-        You are a general AI assistant for '{site}'.
-        No specific knowledge is available, so provide a helpful general response.
+        You are a chatbot for '{site}'.
+        No specific knowledge is available, so provide general AI assistance.
         """
 
     try:
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_message}
-            ],
-            max_tokens=150
-        )
-
-        bot_reply = response.choices[0].message.content.strip()
+        bot_reply = get_openai_response(system_prompt, user_message)
         return {"reply": bot_reply}
 
     except openai.OpenAIError as e:
@@ -84,20 +90,23 @@ def serve_html():
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot</title>
     <style>
-        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f4f4; margin: 0; }
-        .chat-container { width: 90%; max-width: 400px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); }
-        h2 { text-align: center; margin-bottom: 10px; }
-        textarea { width: 100%; height: 250px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; resize: none; overflow-y: auto; }
-        input { width: 75%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-top: 10px; }
-        button { width: 20%; padding: 10px; border: none; background-color: #28a745; color: white; border-radius: 5px; cursor: pointer; }
-        button:hover { background-color: #218838; }
+        body { font-family: Arial, sans-serif; position: relative; }
+        .chat-container { position: fixed; bottom: 20px; right: 20px; width: 350px; height: 500px; 
+                          background: white; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); 
+                          overflow: hidden; z-index: 1000; }
+        .chat-header { background: #28a745; color: white; text-align: center; padding: 10px; }
+        .chat-body { height: 400px; overflow-y: auto; padding: 10px; border-bottom: 1px solid #ddd; }
+        .chat-footer { display: flex; padding: 10px; }
+        input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        button { padding: 10px; background: #28a745; color: white; border: none; cursor: pointer; }
+        button:hover { background: #218838; }
     </style>
 </head>
 <body>
     <div class="chat-container">
-        <h2>Chat with AI</h2>
-        <textarea id="chat" readonly></textarea>
-        <div>
+        <div class="chat-header">Chat with AI</div>
+        <div class="chat-body" id="chat"></div>
+        <div class="chat-footer">
             <input type="text" id="message" placeholder="Type your message..." autofocus>
             <button id="sendButton">Send</button>
         </div>
@@ -121,24 +130,24 @@ def serve_html():
                 const message = inputField.value.trim();
                 if (!message) return;
 
-                chatBox.value += "You: " + message + "\\n";
+                chatBox.innerHTML += "<div><b>You:</b> " + message + "</div>";
                 inputField.value = "";
                 chatBox.scrollTop = chatBox.scrollHeight;
 
-                const site = window.location.hostname;  // Get the website name
+                const site = window.location.hostname;
 
-                fetch("https://chatbot-qqjj.onrender.com/chat", {  // Fixed Endpoint
+                fetch("https://chatbot-qqjj.onrender.com/chat", { 
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ message: message, site: site })  // Send site explicitly
+                    body: JSON.stringify({ message: message, site: site })  
                 })
                 .then(response => response.json())
                 .then(data => {
-                    chatBox.value += "Bot: " + (data.reply || "I didn't catch that.") + "\\n";
+                    chatBox.innerHTML += "<div><b>Bot:</b> " + (data.reply || "I didn't catch that.") + "</div>";
                     chatBox.scrollTop = chatBox.scrollHeight;
                 })
                 .catch(error => {
-                    chatBox.value += "Error: Could not fetch response.\\n";
+                    chatBox.innerHTML += "<div style='color:red;'><b>Error:</b> Could not fetch response.</div>";
                     console.error("Fetch error:", error);
                 });
             }
