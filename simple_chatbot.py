@@ -1,5 +1,5 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel
 import openai
 import os
@@ -19,6 +19,7 @@ app = FastAPI()
 
 class ChatRequest(BaseModel):
     message: str
+    site: str  # Explicitly send site name from the frontend
 
 # Function to load knowledge dynamically for each website
 def load_knowledge(site):
@@ -28,10 +29,11 @@ def load_knowledge(site):
         with open(knowledge_file, "r", encoding="utf-8") as f:
             return f.read()
     else:
-        return f"No custom knowledge available for {site}. Ask me general questions!"
+        return f"No specific knowledge available for {site}. Ask general questions!"
 
-# Serve HTML Chat Page
-def get_html_page():
+# Serve Chatbot HTML Page (For Testing Purposes)
+@app.get("/", response_class=HTMLResponse)
+def serve_html():
     return """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,10 +84,10 @@ def get_html_page():
 
                 const site = window.location.hostname;
 
-                fetch(`https://chatbot-qqjj.onrender.com/chat/${site}`, {
+                fetch("https://chatbot-qqjj.onrender.com/chat", {  // Fixed Endpoint
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ message: message })
+                    body: JSON.stringify({ message: message, site: site })  // Send site explicitly
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -102,12 +104,10 @@ def get_html_page():
 </body>
 </html>"""
 
-@app.get("/", response_class=HTMLResponse)
-def serve_html():
-    return get_html_page()
-
-@app.post("/chat/{site}")
-def chat(site: str, request: ChatRequest):
+# ✅ **Fixed API Endpoint**
+@app.post("/chat")
+def chat(request: ChatRequest):
+    site = request.site.strip()
     user_message = request.message.strip()
 
     if not user_message:
@@ -138,4 +138,4 @@ def chat(site: str, request: ChatRequest):
         return {"reply": bot_reply}
 
     except openai.OpenAIError as e:
-        return {"reply": f"Sorry, I'm having trouble right now. {str(e)}"}
+        return JSONResponse(status_code=500, content={"reply": f"Error: {str(e)}"})
