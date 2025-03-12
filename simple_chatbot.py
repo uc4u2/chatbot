@@ -1,61 +1,53 @@
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import openai
 import os
 import requests
 from dotenv import load_dotenv
 
-# ✅ Load environment variables
+# Load environment variables
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 if not OPENAI_API_KEY:
-    raise ValueError("❌ Missing OpenAI API key. Set OPENAI_API_KEY in your .env file.")
+    raise ValueError("Missing OpenAI API key. Set OPENAI_API_KEY in your .env file.")
 
-# ✅ Initialize OpenAI Client
+# Initialize OpenAI Client
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
-# ✅ Define FastAPI app
 app = FastAPI()
-
-# ✅ Enable CORS (Fixes "Method Not Allowed" error)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Allow all domains (change to a list of domains for security)
-    allow_credentials=True,
-    allow_methods=["*"],  # Allow all HTTP methods
-    allow_headers=["*"],  # Allow all headers
-)
-
-# ✅ S3 Bucket Configuration
-S3_BUCKET_URL = "https://chatbot-knowledge-bucket.s3.us-east-1.amazonaws.com"
 
 class ChatRequest(BaseModel):
     message: str
-    site: str  # Website making the request
+    site: str  # Explicitly send site name from the frontend
 
-# ✅ Function to fetch knowledge from S3
-def fetch_knowledge(site):
-    knowledge_file_url = f"{S3_BUCKET_URL}/knowledge_{site}.txt"
+# Function to fetch knowledge from a website
+def fetch_knowledge_from_website(site):
+    knowledge_url = f"https://{site}/knowledge.txt"
+    print(f"📡 Fetching knowledge from: {knowledge_url}")
 
     try:
-        print(f"📂 Fetching knowledge from: {knowledge_file_url}")  # Debugging
-        response = requests.get(knowledge_file_url)
-
-        print(f"📡 Response status: {response.status_code}")  # Debugging
+        response = requests.get(knowledge_url, timeout=5)
         if response.status_code == 200:
-            print(f"✅ Knowledge file found for {site}.")
+            print(f"✅ Successfully fetched knowledge for {site}")
             return response.text
         else:
-            print("❌ Knowledge file not found.")
+            print(f"❌ ERROR: Knowledge file not found for {site} (HTTP {response.status_code})")
             return None
     except requests.RequestException as e:
-        print(f"❌ Failed to fetch knowledge: {str(e)}")
+        print(f"❌ ERROR: Failed to fetch knowledge for {site}: {str(e)}")
         return None
 
-# ✅ API Route: Chat Endpoint
+# Function to fetch stored knowledge from the chatbot server
+def fetch_knowledge_from_server(site):
+    knowledge_file = f"knowledge_{site}.txt"
+    if os.path.exists(knowledge_file):
+        with open(knowledge_file, "r", encoding="utf-8") as f:
+            return f.read()
+    return None
+
+# ✅ **Chat Endpoint**
 @app.post("/chat")
 def chat(request: ChatRequest):
     site = request.site.strip()
@@ -64,36 +56,33 @@ def chat(request: ChatRequest):
     if not user_message:
         raise HTTPException(status_code=400, detail="Message cannot be empty.")
 
-    # ✅ Load site-specific knowledge
-    custom_knowledge = fetch_knowledge(site)
+    # Try fetching knowledge from the website first
+    custom_knowledge = fetch_knowledge_from_website(site)
+
+    # If website knowledge is not available, use stored knowledge on the chatbot server
+    if not custom_knowledge:
+        custom_knowledge = fetch_knowledge_from_server(site)
 
     if custom_knowledge:
         system_prompt = f"""
-        You are a highly intelligent chatbot for the website '{site}'.
-        Your primary job is to provide helpful and accurate answers using the knowledge base provided.
+        You are a chatbot for '{site}'.
+        Your job is to assist users based on the following knowledge:
 
-        KNOWLEDGE BASE:
         {custom_knowledge}
 
-        INSTRUCTIONS:
-        - If the knowledge base **contains relevant information**, use it to answer.
-        - If the knowledge base **does NOT contain** the answer, acknowledge that and provide a general response.
-        - **Do not mix knowledge between websites.**
+        If the knowledge base does not cover the topic, politely inform the user.
         """
     else:
         system_prompt = f"""
-        You are an AI chatbot for '{site}', but no specific knowledge is available.
-        Provide general helpful responses but acknowledge that no custom information is available.
+        You are a general AI assistant for '{site}'.
+        No specific knowledge is available for this site, so provide general AI responses.
         """
 
     try:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_message}
-            ],
-            max_tokens=200
+            messages=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_message}],
+            max_tokens=150,
         )
 
         bot_reply = response.choices[0].message.content.strip()
@@ -103,7 +92,24 @@ def chat(request: ChatRequest):
         return JSONResponse(status_code=500, content={"reply": f"Error: {str(e)}"})
 
 
-# ✅ API Route: Embedded Chatbot UI for Testing
+# ✅ **Upload Knowledge Endpoint (For Manual Uploads)**
+@app.post("/upload-knowledge")
+def upload_knowledge(request: ChatRequest):
+    site = request.site.strip()
+    knowledge_content = request.message.strip()
+
+    if not site or not knowledge_content:
+        raise HTTPException(status_code=400, detail="Site and knowledge content cannot be empty.")
+
+    # Save to a local file
+    knowledge_file = f"knowledge_{site}.txt"
+    with open(knowledge_file, "w", encoding="utf-8") as f:
+        f.write(knowledge_content)
+
+    return {"status": "success", "message": f"Knowledge for {site} uploaded successfully"}
+
+
+# ✅ **Frontend Chatbot UI**
 @app.get("/", response_class=HTMLResponse)
 def serve_html():
     return """<!DOCTYPE html>
@@ -156,10 +162,10 @@ def serve_html():
 
                 const site = window.location.hostname;
 
-                fetch("https://chatbot-qqjj.onrender.com/chat", {
+                fetch("https://chatbot-qqjj.onrender.com/chat", {  
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ message: message, site: site })
+                    body: JSON.stringify({ message: message, site: site })  
                 })
                 .then(response => response.json())
                 .then(data => {
