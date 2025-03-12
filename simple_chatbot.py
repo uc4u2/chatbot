@@ -19,10 +19,10 @@ client = openai.OpenAI(api_key=OPENAI_API_KEY)
 # ✅ FastAPI Setup
 app = FastAPI()
 
-# ✅ Enable CORS to allow external websites (like KK Cabinets) to access the API
+# ✅ Enable CORS (Fix for communication between websites)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Change this to a specific list of trusted sites if needed
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -42,7 +42,7 @@ def load_knowledge(site):
     # 🔹 Check if the knowledge file exists locally
     if os.path.exists(knowledge_file):
         with open(knowledge_file, "r", encoding="utf-8") as f:
-            return f.read()
+            return f.read().strip()  # Ensure no empty lines are causing issues
 
     # 🔹 If no knowledge file exists, return None
     return None
@@ -62,7 +62,7 @@ def chat(request: ChatRequest):
 
     if custom_knowledge:
         system_prompt = f"""
-        You are a highly intelligent and logical chatbot for '{site}'.
+        You are a chatbot specifically trained for '{site}'.
         Your primary role is to assist users based on the following knowledge base:
 
         {custom_knowledge}
