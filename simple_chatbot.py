@@ -1,88 +1,94 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import openai
 import os
-import requests
-from dotenv import load_dotenv
 
-# Load environment variables
+# ✅ Load environment variables
+from dotenv import load_dotenv
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 if not OPENAI_API_KEY:
     raise ValueError("Missing OpenAI API key. Set OPENAI_API_KEY in your .env file.")
 
-# Initialize OpenAI Client
+# ✅ Initialize OpenAI Client
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
+# ✅ FastAPI Setup
 app = FastAPI()
+
+# ✅ Enable CORS to allow external websites (like KK Cabinets) to access the API
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Change this to a specific list of trusted sites if needed
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class ChatRequest(BaseModel):
     message: str
-    site: str  # Explicitly send site name from the frontend
+    site: str  # Website sending the request
 
-# Function to fetch knowledge from a website
-def fetch_knowledge_from_website(site):
-    knowledge_url = f"https://{site}/knowledge.txt"
-    print(f"📡 Fetching knowledge from: {knowledge_url}")
-
-    try:
-        response = requests.get(knowledge_url, timeout=5)
-        if response.status_code == 200:
-            print(f"✅ Successfully fetched knowledge for {site}")
-            return response.text
-        else:
-            print(f"❌ ERROR: Knowledge file not found for {site} (HTTP {response.status_code})")
-            return None
-    except requests.RequestException as e:
-        print(f"❌ ERROR: Failed to fetch knowledge for {site}: {str(e)}")
-        return None
-
-# Function to fetch stored knowledge from the chatbot server
-def fetch_knowledge_from_server(site):
+# ✅ Function to Load Knowledge for a Specific Website
+def load_knowledge(site):
+    """
+    Fetches the knowledge file from local storage based on the website making the request.
+    """
     knowledge_file = f"knowledge_{site}.txt"
+
+    # 🔹 Check if the knowledge file exists locally
     if os.path.exists(knowledge_file):
         with open(knowledge_file, "r", encoding="utf-8") as f:
             return f.read()
+
+    # 🔹 If no knowledge file exists, return None
     return None
 
-# ✅ **Chat Endpoint**
+
+# ✅ **Chatbot API Endpoint**
 @app.post("/chat")
 def chat(request: ChatRequest):
-    site = request.site.strip()
+    site = request.site.strip().lower()  # Ensure site is case-insensitive
     user_message = request.message.strip()
 
     if not user_message:
         raise HTTPException(status_code=400, detail="Message cannot be empty.")
 
-    # Try fetching knowledge from the website first
-    custom_knowledge = fetch_knowledge_from_website(site)
-
-    # If website knowledge is not available, use stored knowledge on the chatbot server
-    if not custom_knowledge:
-        custom_knowledge = fetch_knowledge_from_server(site)
+    # 🔹 Load site-specific knowledge
+    custom_knowledge = load_knowledge(site)
 
     if custom_knowledge:
         system_prompt = f"""
-        You are a chatbot for '{site}'.
-        Your job is to assist users based on the following knowledge:
+        You are a highly intelligent and logical chatbot for '{site}'.
+        Your primary role is to assist users based on the following knowledge base:
 
         {custom_knowledge}
 
-        If the knowledge base does not cover the topic, politely inform the user.
+        INSTRUCTIONS:
+        - Answer questions **only based on the provided knowledge**.
+        - If knowledge is missing but you can infer, provide a **logical deduction**.
+        - If the topic is not covered, politely say: "I'm sorry, I don't have information on that topic."
+        - **Do NOT mix knowledge from other sites.**
+
+        Let's begin!
         """
     else:
         system_prompt = f"""
-        You are a general AI assistant for '{site}'.
-        No specific knowledge is available for this site, so provide general AI responses.
+        You are an AI chatbot for '{site}'.
+        No specific knowledge base is available, so provide general AI responses.
         """
 
     try:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
-            messages=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_message}],
-            max_tokens=150,
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_message}
+            ],
+            max_tokens=150
         )
 
         bot_reply = response.choices[0].message.content.strip()
@@ -92,24 +98,7 @@ def chat(request: ChatRequest):
         return JSONResponse(status_code=500, content={"reply": f"Error: {str(e)}"})
 
 
-# ✅ **Upload Knowledge Endpoint (For Manual Uploads)**
-@app.post("/upload-knowledge")
-def upload_knowledge(request: ChatRequest):
-    site = request.site.strip()
-    knowledge_content = request.message.strip()
-
-    if not site or not knowledge_content:
-        raise HTTPException(status_code=400, detail="Site and knowledge content cannot be empty.")
-
-    # Save to a local file
-    knowledge_file = f"knowledge_{site}.txt"
-    with open(knowledge_file, "w", encoding="utf-8") as f:
-        f.write(knowledge_content)
-
-    return {"status": "success", "message": f"Knowledge for {site} uploaded successfully"}
-
-
-# ✅ **Frontend Chatbot UI**
+# ✅ **Frontend Chatbot UI (For Testing)**
 @app.get("/", response_class=HTMLResponse)
 def serve_html():
     return """<!DOCTYPE html>
