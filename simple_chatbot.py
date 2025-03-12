@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import openai
 import os
@@ -17,6 +18,15 @@ client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
 app = FastAPI()
 
+# ✅ Fix CORS Issues
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 🔥 Allow all origins for testing (Restrict in production)
+    allow_credentials=True,
+    allow_methods=["POST"],  # ✅ Ensure POST is allowed
+    allow_headers=["*"],  # ✅ Allow custom headers
+)
+
 # ✅ Function to load knowledge from S3 based on site
 def load_knowledge_from_s3(site):
     s3_url = f"https://chatbot-knowledge-bucket.s3.us-west-1.amazonaws.com/knowledge_{site}.txt"
@@ -31,7 +41,7 @@ def load_knowledge_from_s3(site):
         print(f"Error fetching knowledge from S3: {e}")
         return None
 
-# ✅ Chatbot API Endpoint
+# ✅ Chatbot API Endpoint (POST Requests Only)
 @app.post("/chat")
 async def chat(request: Request):
     headers = request.headers
