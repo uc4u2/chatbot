@@ -12,73 +12,78 @@ load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 if not OPENAI_API_KEY:
-    raise ValueError("Missing OpenAI API key. Set OPENAI_API_KEY in your .env file.")
+    raise ValueError("❌ Missing OpenAI API key. Set OPENAI_API_KEY in your .env file.")
 
 # ✅ Initialize OpenAI Client
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
-# ✅ FastAPI app setup
+# ✅ Define FastAPI app
 app = FastAPI()
 
-# ✅ CORS Middleware to allow requests from all websites
+# ✅ Enable CORS (Fixes "Method Not Allowed" error)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins
+    allow_origins=["*"],  # Allow all domains (change to a list of domains for security)
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods
+    allow_methods=["*"],  # Allow all HTTP methods
     allow_headers=["*"],  # Allow all headers
 )
 
-# ✅ Base URL for knowledge files stored in S3
+# ✅ S3 Bucket Configuration
 S3_BUCKET_URL = "https://chatbot-knowledge-bucket.s3.us-east-1.amazonaws.com"
 
 class ChatRequest(BaseModel):
     message: str
-    site: str  # Website domain
+    site: str  # Website making the request
 
-# ✅ Function to fetch knowledge file from S3
+# ✅ Function to fetch knowledge from S3
 def fetch_knowledge(site):
     knowledge_file_url = f"{S3_BUCKET_URL}/knowledge_{site}.txt"
-    
+
     try:
+        print(f"📂 Fetching knowledge from: {knowledge_file_url}")  # Debugging
         response = requests.get(knowledge_file_url)
+
+        print(f"📡 Response status: {response.status_code}")  # Debugging
         if response.status_code == 200:
+            print(f"✅ Knowledge file found for {site}.")
             return response.text
         else:
+            print("❌ Knowledge file not found.")
             return None
-    except requests.RequestException:
+    except requests.RequestException as e:
+        print(f"❌ Failed to fetch knowledge: {str(e)}")
         return None
 
-# ✅ Chat Endpoint
+# ✅ API Route: Chat Endpoint
 @app.post("/chat")
-async def chat(request: ChatRequest):
+def chat(request: ChatRequest):
     site = request.site.strip()
     user_message = request.message.strip()
 
     if not user_message:
         raise HTTPException(status_code=400, detail="Message cannot be empty.")
 
-    # ✅ Fetch knowledge dynamically from S3
+    # ✅ Load site-specific knowledge
     custom_knowledge = fetch_knowledge(site)
 
     if custom_knowledge:
         system_prompt = f"""
-        You are a highly intelligent chatbot for '{site}'.
-        Your job is to assist users based on the knowledge base provided below.
+        You are a highly intelligent chatbot for the website '{site}'.
+        Your primary job is to provide helpful and accurate answers using the knowledge base provided.
 
         KNOWLEDGE BASE:
         {custom_knowledge}
 
         INSTRUCTIONS:
-        - If the user's question can be answered using logic and inference, provide the best possible answer.
-        - If the knowledge base does not cover the topic, politely inform the user, but try to provide a general educated guess if applicable.
-        - Keep responses engaging, helpful, and conversational.
-        - Do not mix knowledge between websites. If the user asks about a topic outside this site's scope, do not reference other sites.
+        - If the knowledge base **contains relevant information**, use it to answer.
+        - If the knowledge base **does NOT contain** the answer, acknowledge that and provide a general response.
+        - **Do not mix knowledge between websites.**
         """
     else:
         system_prompt = f"""
-        You are a general AI assistant for '{site}'.
-        No specific knowledge is available, so provide general AI responses.
+        You are an AI chatbot for '{site}', but no specific knowledge is available.
+        Provide general helpful responses but acknowledge that no custom information is available.
         """
 
     try:
@@ -88,7 +93,7 @@ async def chat(request: ChatRequest):
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_message}
             ],
-            max_tokens=150
+            max_tokens=200
         )
 
         bot_reply = response.choices[0].message.content.strip()
@@ -97,7 +102,8 @@ async def chat(request: ChatRequest):
     except openai.OpenAIError as e:
         return JSONResponse(status_code=500, content={"reply": f"Error: {str(e)}"})
 
-# ✅ Serve the Chatbot UI
+
+# ✅ API Route: Embedded Chatbot UI for Testing
 @app.get("/", response_class=HTMLResponse)
 def serve_html():
     return """<!DOCTYPE html>
