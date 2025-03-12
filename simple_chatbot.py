@@ -1,69 +1,84 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import openai
 import os
-import httpx  # To fetch knowledge from website
-from dotenv import load_dotenv
 
-# Load environment variables
+# ✅ Load environment variables
+from dotenv import load_dotenv
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 if not OPENAI_API_KEY:
     raise ValueError("Missing OpenAI API key. Set OPENAI_API_KEY in your .env file.")
 
-# Initialize OpenAI Client
+# ✅ Initialize OpenAI Client
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
+# ✅ FastAPI Setup
 app = FastAPI()
+
+# ✅ Enable CORS for multiple websites
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class ChatRequest(BaseModel):
     message: str
-    site: str  # The website making the request
+    site: str  # Website sending the request
 
-async def fetch_knowledge(site):
-    """ Fetch the knowledge.txt file from the client's website """
-    knowledge_url = f"https://{site}/knowledge.txt"
+# ✅ Function to Load Knowledge for a Specific Website
+def load_knowledge(site):
+    """
+    Fetches the correct knowledge file for each site.
+    """
+    knowledge_file = f"knowledge_{site}.txt"
 
-    async with httpx.AsyncClient() as client:
-        try:
-            response = await client.get(knowledge_url, timeout=5)
-            response.raise_for_status()
-            return response.text.strip()
-        except httpx.HTTPStatusError:
-            return None  # If the file does not exist
-        except httpx.RequestError:
-            return None  # If there are network issues
+    # 🔹 Check if the knowledge file exists locally
+    if os.path.exists(knowledge_file):
+        with open(knowledge_file, "r", encoding="utf-8") as f:
+            return f.read().strip()  # Strip whitespace to avoid empty response issues
 
+    # 🔹 If no knowledge file exists, return None
+    return None
+
+
+# ✅ **Chatbot API Endpoint**
 @app.post("/chat")
-async def chat(request: ChatRequest):
-    site = request.site.strip()
+def chat(request: ChatRequest):
+    site = request.site.strip().lower()  # Normalize site names
     user_message = request.message.strip()
 
     if not user_message:
         raise HTTPException(status_code=400, detail="Message cannot be empty.")
 
-    # Fetch knowledge file from the website
-    custom_knowledge = await fetch_knowledge(site)
+    # 🔹 Load site-specific knowledge
+    custom_knowledge = load_knowledge(site)
 
     if custom_knowledge:
         system_prompt = f"""
-        You are a chatbot for '{site}'.
-        Your primary role is to assist users based on the following knowledge:
+        You are a chatbot dedicated to assisting users for '{site}'.
+        Your responses should be based **only on the following knowledge base**:
 
-        KNOWLEDGE BASE:
         {custom_knowledge}
 
-        INSTRUCTIONS:
-        - If the user's question can be answered **using logic and inference**, provide the best possible answer.
-        - If the knowledge base **does not** cover the topic, politely inform the user.
-        - Keep responses **engaging, helpful, and professional**.
+        RULES:
+        - **If the user's question can be answered using logic and inference, provide the best possible answer.**
+        - **If the knowledge base does not cover a topic, politely say: "I'm sorry, I don't have information on that topic."**
+        - **Do NOT reference other websites.**
+        - **Keep responses professional, clear, and concise.**
+
+        Let's begin!
         """
     else:
         system_prompt = f"""
-        You are a general AI assistant for '{site}'.
-        No specific knowledge file was found for this site, so provide general AI responses.
+        You are an AI chatbot for '{site}'.
+        No specific knowledge base is available, so provide general AI responses.
         """
 
     try:
@@ -82,7 +97,8 @@ async def chat(request: ChatRequest):
     except openai.OpenAIError as e:
         return JSONResponse(status_code=500, content={"reply": f"Error: {str(e)}"})
 
-# ✅ **Frontend Chatbot UI**
+
+# ✅ **Frontend Chatbot UI (For Testing)**
 @app.get("/", response_class=HTMLResponse)
 def serve_html():
     return """<!DOCTYPE html>
@@ -135,10 +151,10 @@ def serve_html():
 
                 const site = window.location.hostname;
 
-                fetch("https://chatbot-qqjj.onrender.com/chat", {  // Fixed Endpoint
+                fetch("https://chatbot-qqjj.onrender.com/chat", {  
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ message: message, site: site })  // Send site explicitly
+                    body: JSON.stringify({ message: message, site: site })  
                 })
                 .then(response => response.json())
                 .then(data => {
