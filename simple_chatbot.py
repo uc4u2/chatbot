@@ -30,7 +30,7 @@ app.add_middleware(
 )
 
 # ✅ Base URL for knowledge files stored in S3
-S3_BUCKET_URL = "https://chatbot-knowledge-bucket.s3.us-west-1.amazonaws.com"
+S3_BUCKET_URL = "https://chatbot-knowledge-bucket.s3.us-east-1.amazonaws.com"
 
 class ChatRequest(BaseModel):
     message: str
