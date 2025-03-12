@@ -19,7 +19,7 @@ client = openai.OpenAI(api_key=OPENAI_API_KEY)
 # ✅ FastAPI Setup
 app = FastAPI()
 
-# ✅ Enable CORS for multiple websites
+# ✅ Enable CORS (Fix for communication between websites)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  
@@ -35,14 +35,14 @@ class ChatRequest(BaseModel):
 # ✅ Function to Load Knowledge for a Specific Website
 def load_knowledge(site):
     """
-    Fetches the correct knowledge file for each site.
+    Fetches the knowledge file from local storage based on the website making the request.
     """
     knowledge_file = f"knowledge_{site}.txt"
 
     # 🔹 Check if the knowledge file exists locally
     if os.path.exists(knowledge_file):
         with open(knowledge_file, "r", encoding="utf-8") as f:
-            return f.read().strip()  # Strip whitespace to avoid empty response issues
+            return f.read().strip()  # Ensure no empty lines are causing issues
 
     # 🔹 If no knowledge file exists, return None
     return None
@@ -51,7 +51,7 @@ def load_knowledge(site):
 # ✅ **Chatbot API Endpoint**
 @app.post("/chat")
 def chat(request: ChatRequest):
-    site = request.site.strip().lower()  # Normalize site names
+    site = request.site.strip().lower()  # Ensure site is case-insensitive
     user_message = request.message.strip()
 
     if not user_message:
@@ -62,16 +62,16 @@ def chat(request: ChatRequest):
 
     if custom_knowledge:
         system_prompt = f"""
-        You are a chatbot dedicated to assisting users for '{site}'.
-        Your responses should be based **only on the following knowledge base**:
+        You are a chatbot specifically trained for '{site}'.
+        Your primary role is to assist users based on the following knowledge base:
 
         {custom_knowledge}
 
-        RULES:
-        - **If the user's question can be answered using logic and inference, provide the best possible answer.**
-        - **If the knowledge base does not cover a topic, politely say: "I'm sorry, I don't have information on that topic."**
-        - **Do NOT reference other websites.**
-        - **Keep responses professional, clear, and concise.**
+        INSTRUCTIONS:
+        - Answer questions **only based on the provided knowledge**.
+        - If knowledge is missing but you can infer, provide a **logical deduction**.
+        - If the topic is not covered, politely say: "I'm sorry, I don't have information on that topic."
+        - **Do NOT mix knowledge from other sites.**
 
         Let's begin!
         """
