@@ -126,7 +126,7 @@ def serve_html():
 </head>
 <body>
     <div class="chat-container">
-        <h2>Chat with Yousef! ask AI about me</h2>
+        <h2>Ask AI about me!</h2>
         <textarea id="chat" readonly></textarea>
         <div>
             <input type="text" id="message" placeholder="Type your message..." autofocus>
