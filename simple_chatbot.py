@@ -1,8 +1,10 @@
 from fastapi import FastAPI, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel
 import openai
 import os
+import logging
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -15,34 +17,48 @@ if not OPENAI_API_KEY:
 # Initialize OpenAI Client
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
+# Initialize FastAPI app
 app = FastAPI()
+
+# Enable CORS (Required for frontend integration)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Change this to your frontend URL if necessary
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Logging setup
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 class ChatRequest(BaseModel):
     message: str
     site: str  # Explicitly send site name from the frontend
 
-# Function to load knowledge dynamically for each website
+# Function to dynamically load knowledge for a site
 def load_knowledge(site):
     knowledge_file = f"knowledge_{site}.txt"
-
+    
     if os.path.exists(knowledge_file):
         with open(knowledge_file, "r", encoding="utf-8") as f:
             return f.read()
-    else:
-        return None  # Return None if no knowledge exists
+    return None  # Return None if no knowledge exists
 
-# ✅ **Chat Logic with Smart Inference**
+# ✅ **Chatbot API**
 @app.post("/chat")
 def chat(request: ChatRequest):
-    site = request.site.strip()
+    site = request.site.strip().lower()  # Normalize site name
     user_message = request.message.strip()
 
     if not user_message:
         raise HTTPException(status_code=400, detail="Message cannot be empty.")
 
-    # Load knowledge based on the site making the request
+    # Load custom knowledge
     custom_knowledge = load_knowledge(site)
 
+    # Construct system prompt
     if custom_knowledge:
         system_prompt = f"""
         You are a highly intelligent and logical chatbot for the website '{site}'.
@@ -52,17 +68,16 @@ def chat(request: ChatRequest):
         {custom_knowledge}
 
         INSTRUCTIONS:
-        - If the user's question can be answered **using logic and inference**, provide the best possible answer.
-        - If you have relevant information **but it requires reasoning**, **attempt to deduce the answer**.
-        - If the knowledge base **does not** cover the topic, politely inform the user, but try to provide **a general educated guess** if applicable.
-        - Keep responses **engaging, helpful, and conversational**.
-        - **Do not mix knowledge between websites.** If the user asks about a topic outside this site's scope, **do not reference other sites**.
+        - Use **logical reasoning and inference** to provide the best possible answer.
+        - If the knowledge base **does not** cover the topic, politely inform the user, but try to **provide an educated guess**.
+        - Maintain a **helpful and conversational tone**.
+        - **Do not mix knowledge between websites**.
 
-        EXAMPLES OF SMART RESPONSES:
+        Example of a smart response:
         ❌ Bad: "I'm sorry, I can't calculate."
         ✅ Good: "Based on the provided information, Yousef started university at 18 in 2000, meaning he would be around 42-43 years old today."
 
-        Let's begin! Answer the user's queries effectively and intelligently.
+        Now, respond effectively to the user's queries.
         """
     else:
         system_prompt = f"""
@@ -77,14 +92,18 @@ def chat(request: ChatRequest):
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_message}
             ],
-            max_tokens=150
+            temperature=0.7,
+            max_tokens=200  # Allow longer responses
         )
 
         bot_reply = response.choices[0].message.content.strip()
+
+        logger.info(f"Chat Response for {site}: {bot_reply}")
         return {"reply": bot_reply}
 
     except openai.OpenAIError as e:
-        return JSONResponse(status_code=500, content={"reply": f"Error: {str(e)}"})
+        logger.error(f"OpenAI API error: {str(e)}")
+        return JSONResponse(status_code=500, content={"reply": "Apologies, I encountered an issue. Please try again."})
 
 # ✅ **Frontend Chatbot UI**
 @app.get("/", response_class=HTMLResponse)
@@ -139,10 +158,10 @@ def serve_html():
 
                 const site = window.location.hostname;
 
-                fetch("https://chatbot-qqjj.onrender.com/chat", {  // Fixed Endpoint
+                fetch("/chat", {  // Ensure correct API URL
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ message: message, site: site })  // Send site explicitly
+                    body: JSON.stringify({ message: message, site: site })
                 })
                 .then(response => response.json())
                 .then(data => {
