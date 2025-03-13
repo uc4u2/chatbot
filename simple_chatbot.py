@@ -1,84 +1,73 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import openai
 import os
-
-# ✅ Load environment variables
 from dotenv import load_dotenv
+
+# Load environment variables
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 if not OPENAI_API_KEY:
     raise ValueError("Missing OpenAI API key. Set OPENAI_API_KEY in your .env file.")
 
-# ✅ Initialize OpenAI Client
+# Initialize OpenAI Client
 client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
-# ✅ FastAPI Setup
 app = FastAPI()
-
-# ✅ Enable CORS (Fix for communication between websites)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 class ChatRequest(BaseModel):
     message: str
-    site: str  # Website sending the request
+    site: str  # Explicitly send site name from the frontend
 
-# ✅ Function to Load Knowledge for a Specific Website
+# Function to load knowledge dynamically for each website
 def load_knowledge(site):
-    """
-    Fetches the knowledge file from local storage based on the website making the request.
-    """
     knowledge_file = f"knowledge_{site}.txt"
 
-    # 🔹 Check if the knowledge file exists locally
     if os.path.exists(knowledge_file):
         with open(knowledge_file, "r", encoding="utf-8") as f:
-            return f.read().strip()  # Ensure no empty lines are causing issues
+            return f.read()
+    else:
+        return None  # Return None if no knowledge exists
 
-    # 🔹 If no knowledge file exists, return None
-    return None
-
-
-# ✅ **Chatbot API Endpoint**
+# ✅ **Chat Logic with Smart Inference**
 @app.post("/chat")
 def chat(request: ChatRequest):
-    site = request.site.strip().lower()  # Ensure site is case-insensitive
+    site = request.site.strip()
     user_message = request.message.strip()
 
     if not user_message:
         raise HTTPException(status_code=400, detail="Message cannot be empty.")
 
-    # 🔹 Load site-specific knowledge
+    # Load knowledge based on the site making the request
     custom_knowledge = load_knowledge(site)
 
     if custom_knowledge:
         system_prompt = f"""
-        You are a chatbot specifically trained for '{site}'.
-        Your primary role is to assist users based on the following knowledge base:
+        You are a highly intelligent and logical chatbot for the website '{site}'.
+        Your primary role is to assist users based on the knowledge base provided below.
 
+        KNOWLEDGE BASE:
         {custom_knowledge}
 
         INSTRUCTIONS:
-        - Answer questions **only based on the provided knowledge**.
-        - If knowledge is missing but you can infer, provide a **logical deduction**.
-        - If the topic is not covered, politely say: "I'm sorry, I don't have information on that topic."
-        - **Do NOT mix knowledge from other sites.**
+        - If the user's question can be answered **using logic and inference**, provide the best possible answer.
+        - If you have relevant information **but it requires reasoning**, **attempt to deduce the answer**.
+        - If the knowledge base **does not** cover the topic, politely inform the user, but try to provide **a general educated guess** if applicable.
+        - Keep responses **engaging, helpful, and conversational**.
+        - **Do not mix knowledge between websites.** If the user asks about a topic outside this site's scope, **do not reference other sites**.
 
-        Let's begin!
+        EXAMPLES OF SMART RESPONSES:
+        ❌ Bad: "I'm sorry, I can't calculate."
+        ✅ Good: "Based on the provided information, Yousef started university at 18 in 2000, meaning he would be around 42-43 years old today."
+
+        Let's begin! Answer the user's queries effectively and intelligently.
         """
     else:
         system_prompt = f"""
         You are an AI chatbot for '{site}'.
-        No specific knowledge base is available, so provide general AI responses.
+        No specific knowledge is available for this site, so provide **accurate and general AI responses**.
         """
 
     try:
@@ -97,8 +86,7 @@ def chat(request: ChatRequest):
     except openai.OpenAIError as e:
         return JSONResponse(status_code=500, content={"reply": f"Error: {str(e)}"})
 
-
-# ✅ **Frontend Chatbot UI (For Testing)**
+# ✅ **Frontend Chatbot UI**
 @app.get("/", response_class=HTMLResponse)
 def serve_html():
     return """<!DOCTYPE html>
@@ -151,10 +139,10 @@ def serve_html():
 
                 const site = window.location.hostname;
 
-                fetch("https://chatbot-qqjj.onrender.com/chat", {  
+                fetch("https://chatbot-qqjj.onrender.com/chat", {  // Fixed Endpoint
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ message: message, site: site })  
+                    body: JSON.stringify({ message: message, site: site })  // Send site explicitly
                 })
                 .then(response => response.json())
                 .then(data => {
