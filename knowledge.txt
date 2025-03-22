@@ -219,168 +219,128 @@ HTML5
 HTML5
 Technical Support
 Technical Support
-13 endorsements
-13 endorsements
+
 Operating Systems
 Operating Systems
-11 endorsements
-11 endorsements
+
 Help Desk Support
 Help Desk Support
-11 endorsements
-11 endorsements
+
 Call Centers
 Call Centers
-10 endorsements
-10 endorsements
+
 Windows 7
 Windows 7
-10 endorsements
-10 endorsements
+
 Web Development
 Web Development
-6 endorsements
-6 endorsements
+
 Software Installation
 Software Installation
-7 endorsements
-7 endorsements
+
 Bilingual
 Bilingual
-1 endorsement
-1 endorsement
+
 Web Design
 Web Design
-2 endorsements
-2 endorsements
+
 Website Development
 Website Development
-2 endorsements
-2 endorsements
+
 Dreamweaver
 Dreamweaver
-2 endorsements
-2 endorsements
+
 Photoshop
 Photoshop
-3 endorsements
-3 endorsements
+
 Web Content
 Web Content
-2 endorsements
-2 endorsements
+
 MySQL
 MySQL
-4 endorsements
-4 endorsements
+
 PHP
 PHP
-3 endorsements
-3 endorsements
+
 LAMP
 LAMP
-2 endorsements
-2 endorsements
+
 HTML
 HTML
-9 endorsements
-9 endorsements
+
 Wordpress
 Wordpress
-2 endorsements
-2 endorsements
+
 CSS
 CSS
-2 endorsements
-2 endorsements
+
 Joomla
 Joomla
 2 endorsements
 2 endorsements
 Windows XP Pro
 Windows XP Pro
-1 endorsement
-1 endorsement
+
 Windows Server
 Windows Server
-6 endorsements
-6 endorsements
+
 System Administration
 System Administration
-5 endorsements
-5 endorsements
+
 Microsoft Office
 Microsoft Office
-14 endorsements
-14 endorsements
+
 Call Center
 Call Center
-2 endorsements
-2 endorsements
+
 Hardware Installation
 Hardware Installation
-2 endorsements
-2 endorsements
+
 Active Directory
 Active Directory
-3 endorsements
-3 endorsements
+
 FTP
 FTP
-2 endorsements
-2 endorsements
+
 Group Policy
 Group Policy
-2 endorsements
-2 endorsements
+
 CMS
 CMS
-2 endorsements
-2 endorsements
+
 Virtual PC
 Virtual PC
-2 endorsements
-2 endorsements
+
 TCP/IP
 TCP/IP
-7 endorsements
-7 endorsements
+
 Subnetting
 Subnetting
-2 endorsements
-2 endorsements
+
 Windows 8
 Windows 8
-2 endorsements
-2 endorsements
+
 Hyper-V
 Hyper-V
-2 endorsements
-2 endorsements
+
 Cisco Routers
 Cisco Routers
-2 endorsements
-2 endorsements
+
 Routing
 Routing
-2 endorsements
-2 endorsements
+
 Windows XP
 Windows XP
-5 endorsements
-5 endorsements
+
 Customer Service
 Customer Service
-7 endorsements
-7 endorsements
+
 Team Leadership
 Team Leadership
-4 endorsements
-4 endorsements
+
 Team Management
 Team Management
-3 endorsements
-3 endorsements
+
 Managementsume for recruiters, hiring managers, and potential collaborators.
 
 SEO Automation & Website Optimization Tool # 
@@ -482,45 +442,45 @@ Contact & Support
 
 Email: photoartisto.ca@gmail.com# https://www.linkedin.com/in/yousef-samak/# Website: www.photoartisto.com🔗 [View My Website](https://ddrgpllph0xp2.cloudfront.net 
 
-📜 About
+ About
 This website highlights:
 
 My skills & expertise
 Featured projects & achievements
 Contact information for potential recruiters or hiring managers
-🛠️ Technologies Used
+ Technologies Used
 Frontend: React.js
 Backend: AWS Amplify, Lambda
 Database: AWS DynamoDB (optional for projects)
 Hosting: AWS S3 + CloudFront
 CI/CD: GitHub Actions + AWS Amplify
-📥 Installation & Setup (Local Development)
+ Installation & Setup (Local Development)
 To set up this project locally, follow these steps:
 
-1️⃣ Clone the Repository
+1️ Clone the Repository
  git clone https://github.com/yourusername/portfolio-website.git
  cd portfolio-website
-2️⃣ Install Dependencies
+2️ Install Dependencies
 npm install
-3️⃣ Start the Development Server
+3️ Start the Development Server
 npm start
 This will start a local server at http://localhost:3000/.
 
-📡 Deployment (AWS Amplify + S3)
+ Deployment (AWS Amplify + S3)
 Push changes to GitHub
 git add .
 git commit -m "Updated portfolio"
 git push origin main
 AWS Amplify automatically deploys updates on each push.
-🔥 Features
-📂 Project Showcase: Displays a list of my best projects.
-💼 Resume & Work Experience: Lists my professional background.
-📬 Contact Section: Allows recruiters to reach out easily.
-🎨 Modern UI: Responsive & minimalistic design.
-📞 Contact Me
-📧 Email: yousefsamak@yahoo.com 🔗 LinkedIn: https://www.linkedin.com/in/yousef-samak/
+ Features
+ Project Showcase: Displays a list of my best projects.
+ Resume & Work Experience: Lists my professional background.
+ Contact Section: Allows recruiters to reach out easily.
+ Modern UI: Responsive & minimalistic design.
+ Contact Me
+ Email: yousefsamak@yahoo.com 🔗 LinkedIn: https://www.linkedin.com/in/yousef-samak/
 
-⭐ Contribute
+ Contribute
 Feel free to fork this repository and make improvements!
 
 git clone https://github.com/uc4u2/portfolio-website.git   AliExpress-Scraper
@@ -674,7 +634,7 @@ python scraper.py
 Step-by-Step Guide: Building a Chatbot with FastAPI (Backend) & React (Frontend using Vite)
 This guide will walk you through the full process of setting up the chatbot, from backend (FastAPI) to frontend (React with Vite). It includes all PowerShell (PS) / Command Prompt (CMD) commands needed to run, debug, and update your chatbot in the future.
 
-1️⃣ Backend Setup - FastAPI
+ Backend Setup - FastAPI
 We'll start by setting up the chatbot API with FastAPI.
 
 1.1 Install Python & Create Virtual Environment
@@ -754,9 +714,9 @@ powershell
 Copy
 Edit
 curl -X POST "http://127.0.0.1:8000/chat" -H "Content-Type: application/json" -d "{\"user_id\": \"123\", \"message\": \"Who is Yousef?\"}"
-If successful, you’ll receive a chatbot response. ✅
+If successful, you’ll receive a chatbot response. 
 
-2️⃣ Frontend Setup - React (Vite)
+ Frontend Setup - React (Vite)
 We'll now set up the chatbot's UI using React with Vite.
 
 2.1 Install Node.js & Create Vite App
@@ -912,7 +872,7 @@ Edit
 npm run dev
 ✔ Frontend running on: http://localhost:5173/
 
-💡 Summary of Commands
+ Summary of Commands
 Task	Command
 Activate virtual environment	env\Scripts\Activate.ps1
 Install backend dependencies	pip install fastapi uvicorn openai python-dotenv
