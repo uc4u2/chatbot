@@ -1161,3 +1161,32 @@ This chatbot is designed to provide site-specific assistance by fetching knowled
 The integration of cloud-hosted knowledge bases, real-time API communication, and secure domain-specific access ensures accuracy, scalability, and efficiency in chatbot interactions. This approach eliminates the need for manual updates and allows website owners to modify their own knowledge base easily.
 
  This chatbot is just one example of my passion for AI, automation, and scalable cloud solutions. I'm constantly working on new innovations to enhance AI-powered interactions across different industries!
+
+Scheduling Application 03/22/2025 Toronto Canada
+I, Yousef Jalali, developed this full-stack,  scheduling application to streamline the process of booking interviews and meetings for recruiters and candidates. Designed as a modern, user-friendly SaaS platform, it showcases my capabilities in backend engineering, frontend development, cloud deployment, and AI integration.
+
+Technology Stack & Tools Used
+To build this application, I leveraged:
+
+Flask & Python → Lightweight and scalable backend for API development and logic handling.
+PostgreSQL & SQLAlchemy → For efficient, relational data management and migrations.
+JWT Authentication & Multi-Factor Login → To ensure secure access and OTP-based recruiter logins.
+React & Material UI → For an intuitive, responsive, and dynamic frontend experience.
+Jitsi Meet Integration → Allowing recruiters to sync meetings directly with their Jitsi Meet accounts (Zoom, Google meet and Google calendar will be available soon)
+Render.com → For deploying both frontend and backend seamlessly to the cloud.
+Redis & Celery (optional) → To support background tasks like sending confirmation emails and reminders.
+Git & GitHub → For code management and version control in a collaborative workflow.
+My Expertise & Skills
+This project reflects my strengths in:
+
+Full-Stack Development (React, Flask, PostgreSQL, REST APIs)
+DevOps & Deployment (Render, GitHub Actions, CI/CD)
+Authentication & Security (JWT, OTP, secure CORS handling, OAuth2)
+Cloud Infrastructure (Docker, Redis, environment config, deployment automation)
+API Integration (Zoom SDK, calendar logic, intelligent availability matching)
+About the Scheduling App Project
+The application allows recruiters to set their availability, manage bookings, and securely authenticate via OTP and JWT tokens. Candidates receive a streamlined booking link to choose from real-time time slots and optionally cancel or reschedule their interviews.
+
+Integrated Jitsi Meet functionality auto-generates meeting links and syncs interviews directly to calendars—saving valuable time and eliminating manual coordination.
+
+This project not only simplifies the recruitment process but also demonstrates how modern web technologies, when combined with thoughtful UX design and secure backend architecture, can transform traditional workflows.
