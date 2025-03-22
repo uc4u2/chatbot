@@ -22,7 +22,7 @@ GTArealmedia.com – Toronto, ON | January 2024 – Present
 • Implemented serverless applications with AWS Lambda & API Gateway, reducing infrastructure costs by 30%.
 • Automated infrastructure deployments using CloudFormation and PowerShell, reducing provisioning time by 40%.
 • Optimized cloud security by implementing IAM roles, VPNs, and encryption standards.
-• Developed SEO automation solutions leveraging Python and PowerShell to enhance website traffic and improve Core Web Vitals.
+• Developed SEO automation solutions leveraging Python and PowerShell to enhance website traffic and improve Core Web Vitals.you can try it at www.gtarealmedia.com
 Cloud Projects & Achievements
 GrandpaOliver.com – Subscription-Based Web Application
 AWS Cloud Infrastructure for Digital Content Platform
@@ -32,6 +32,7 @@ AWS Cloud Infrastructure for Digital Content Platform
 • Integrated Firebase Authentication for secure user access to premium content.
 • Optimized global content delivery using AWS CloudFront, improving page load speeds by 50%.
 • Implemented Stripe Payments for handling multiple subscription models (Monthly, Yearly, Trial).
+you can try it at www.grandpaoliver.com
 AWS Cloud Setup for Small Law Firms
 Developed a reusable AWS CloudFormation template to automate cloud infrastructure setup for small law firms. The solution enables secure remote access, scalable networking, and centralized document storage. Features include automated VPC creation with public/private subnets, secure VPN access, and S3 storage for legal documents. This setup enhances security, improves collaboration, and ensures compliance with data protection standards.
 AliExpress-Scraper – Automated Product Research Tool
@@ -1160,7 +1161,7 @@ This chatbot is designed to provide site-specific assistance by fetching knowled
 
 The integration of cloud-hosted knowledge bases, real-time API communication, and secure domain-specific access ensures accuracy, scalability, and efficiency in chatbot interactions. This approach eliminates the need for manual updates and allows website owners to modify their own knowledge base easily.
 
- This chatbot is just one example of my passion for AI, automation, and scalable cloud solutions. I'm constantly working on new innovations to enhance AI-powered interactions across different industries!
+ This chatbot is just one example of my passion for AI, automation, and scalable cloud solutions. I'm constantly working on new innovations to enhance AI-powered interactions across different industries! you can try the chatbot at https://chatbot-qqjj.onrender.com/
 
 Scheduling Application 03/22/2025 Toronto Canada
 I, Yousef Jalali, developed this full-stack,  scheduling application to streamline the process of booking interviews and meetings for recruiters and candidates. Designed as a modern, user-friendly SaaS platform, it showcases my capabilities in backend engineering, frontend development, cloud deployment, and AI integration.
@@ -1189,4 +1190,4 @@ The application allows recruiters to set their availability, manage bookings, an
 
 Integrated Jitsi Meet functionality auto-generates meeting links and syncs interviews directly to calendars—saving valuable time and eliminating manual coordination.
 
-This project not only simplifies the recruitment process but also demonstrates how modern web technologies, when combined with thoughtful UX design and secure backend architecture, can transform traditional workflows.
+This project not only simplifies the recruitment process but also demonstrates how modern web technologies, when combined with thoughtful UX design and secure backend architecture, can transform traditional workflows. you can Scheduling Application the application at https://scheduling-frontend.onrender.com/
